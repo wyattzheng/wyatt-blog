@@ -4,8 +4,6 @@ import { MockFileSystem } from "./filesystem/MockFileSystem";
 export const SystemContext = React.createContext<any>({});
 
 
-
-
 /**
  * 文件系统模型
  */

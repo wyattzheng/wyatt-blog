@@ -1,4 +1,4 @@
-import { StdInput, StdOutput } from "./program/model";
+import { StdInput, StdOutput } from "./program/program";
 import { EventEmitter2 } from "eventemitter2"
 import { MutableRefObject, RefObject, useEffect, useRef } from "react";
 import { Terminal } from "xterm";
@@ -6,7 +6,6 @@ import { Terminal } from "xterm";
 export class EventStandardInput implements StdInput{
     constructor(private dataEventEmitter:EventEmitter2){ }
     onData (listener: (data: string) => any) : void{
-        console.log("listen")
         this.dataEventEmitter.on("data",listener);
     }
     removeDataListener(listener: (data: string) => any): void {
@@ -18,6 +17,9 @@ export class TerminalStandardOutput implements StdOutput{
     constructor(private terminal:Terminal){ }
     writeData(data: string): void {
         this.terminal.write(data);
+    }
+    clear(){
+        this.terminal.clear();
     }
 }
 
