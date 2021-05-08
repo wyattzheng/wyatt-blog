@@ -1,0 +1,38 @@
+
+.articleviewer{
+    padding-top:40px;
+}
+.articleviewer_title{
+    font-size: 46px;
+    font-family: Merriweather, Georgia, serif;
+    height:40px;
+    font-weight: 900;
+}
+
+.articleviewer_split{
+    border-bottom: 1px solid #666;
+    margin-bottom:20px;
+}
+.articleviewer_metainfo{
+    height: 30px;
+    line-height: 30px;
+    margin-top: 20px;
+    font-size:14px;
+    display:flex;
+    letter-spacing:1px;
+}
+.articleviewer_content{
+    font-family: Merriweather, Georgia, serif;
+    padding:10px;
+}
+
+.artcleviewer_metainfo_item{
+    display:flex;
+    align-items: center;
+    font-weight:100;
+    margin-right:10px;
+}
+
+.artcleviewer_metainfo_item svg{
+    margin:3px;
+}

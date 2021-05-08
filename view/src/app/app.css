@@ -1,18 +1,27 @@
 .app{
   height: 100vh;
 }
-.container{
-  height:100%;
+.display-box{
+  background-color: #333;
+  margin:0 auto;
+  height:calc(100% - 40px);
   display:flex;
   flex-direction: column;
+  padding:20px;
+  overflow-y:auto;
+  width:calc(100% - 40px);
+  align-items:center;
 }
 
 .display{
+  width:calc(100% - 100px);
+  max-width:1000px;
   flex:1;
-  background-color: #333;
   color: #FFF;
 }
+
 .wterm{
+  
   width:800px;
   margin:0 auto;
   box-shadow: 0px 0px 1px #CCC;
@@ -23,5 +32,60 @@
 }
 .terminal-area{
   padding:10px;
+  position: fixed;
+  bottom:0;
+  right:0;
   background-color: rgba(0, 0, 0, 0.87);
+  z-index:999;
+  border-radius: 10px;
+}
+
+.terminal-toggle-button{
+  color:#CCC;
+  font-size:42px;
+  height:60px;
+  width:60px;
+  text-align: center;
+  position: fixed;
+  right:30px;
+  bottom:10px;
+  border-radius:15px;
+  background: rgba(0,0,0,0.3);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index:999;
+
+}
+
+.display-box::-webkit-scrollbar{
+  width:14px;
+}
+
+.display-box::-webkit-scrollbar-thumb{
+  background-color: #777;
+}
+.display-box::-webkit-scrollbar-thumb:hover{
+  background-color: #999;
+}
+
+.display-box::-webkit-scrollbar-track{
+  background-color:#333;
+  transition: all 1s;
+}
+
+
+.terminal{
+  padding:10px;
+}
+
+@media screen and (max-width:800px){
+  .display{
+    width:100%;
+  }
+
+  .display-box::-webkit-scrollbar{
+    display: none;
+  }
 }

@@ -7,6 +7,7 @@ export interface WTerminalProps{
     rows: number;
     cols: number;
     className? : string;
+    style:any,
     onData? : (arg:string) => any;
     onKey? : (arg:{key:string,domEvent:KeyboardEvent}) => any;
 }
@@ -39,9 +40,11 @@ export const WTerminal = React.forwardRef(function (props : WTerminalProps ,ref 
         props.onKey && term.onKey(props.onKey);
 
         return ()=>term.dispose();
-    },[terminal,xtermRef]);
+    
+        // eslint-disable-next-line
+    },[]);
 
     return (
-        <div ref={ xtermRef } className={props.className}></div>
+        <div ref={ xtermRef } style={props.style} className={props.className}></div>
     )
 })

@@ -1,3 +1,4 @@
+import Axios from "axios";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { IMonitor } from "../monitor";
 import { ISystem } from "../system";
@@ -59,6 +60,38 @@ export abstract class Program implements IProgram{
     private stop(){
         this.stdin.removeDataListener(this.inputListener);
     }
+    protected setDefaultDisplay(){
+        this.monitor.setDisplay(<div>当前未运行程序, 请在终端界面输入命令</div>)
+    }
+    protected isLogined(){
+        const authToken = this.system.env.get("AUTH_TOKEN");
+        return authToken ? true : false;
+    }
+    protected network(forceLogin : boolean = false){
+        const baseURL = this.system.env.get("SERVER_URL");
+        const authToken = this.system.env.get("AUTH_TOKEN");
+        if(!baseURL)
+            throw new Error(`系统未设置 SERVER_URL 环境变量`);
+        if(!this.isLogined() && forceLogin)
+            throw new Error(`该请求需要登录, 但系统未设置 AUTH_TOKEN 环境变量`);
+    
+
+        const axios =  Axios.create({
+            baseURL,
+            headers:{
+                "auth-token":authToken || ""
+            }
+        })
+        axios.interceptors.response.use((res)=>{
+            res.data = res.data.data;
+            return res;
+        },(error)=>{
+            error.message = error.response.data.message;
+            return Promise.reject(error);
+        })
+        return axios;
+    }
+
     async run(...args:any[]){
         this.start();
         await this.execute(...args);
