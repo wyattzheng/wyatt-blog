@@ -8,7 +8,13 @@
     height:40px;
     font-weight: 900;
 }
-
+.articleviewer_golist{
+    font-size:16px;
+    color:#BBB;
+    text-underline-position: under;
+    margin-bottom: 50px;
+    display: inline-block;
+}
 .articleviewer_split{
     border-bottom: 1px solid #666;
     margin-bottom:20px;
@@ -24,8 +30,11 @@
 .articleviewer_content{
     font-family: Merriweather, Georgia, serif;
     padding:10px;
+    color:#FFF;
 }
-
+.articleviewer_content a{
+    color:#FFF;
+}
 .artcleviewer_metainfo_item{
     display:flex;
     align-items: center;

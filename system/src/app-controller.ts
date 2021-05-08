@@ -17,6 +17,10 @@ export class CreateArticleDTO{
   @IsNotEmpty()
   @IsString()
   title:string;
+  
+  @IsNotEmpty()
+  @IsString()
+  shortbody:string;
 
   @IsNotEmpty()
   @IsString()
@@ -39,6 +43,10 @@ export class ModifyArticleDTO{
   @IsNotEmpty()
   @IsString()
   title:string;
+
+  @IsNotEmpty()
+  @IsString()
+  shortbody:string;
 
   @IsNotEmpty()
   @IsString()
@@ -95,13 +103,13 @@ export class AppController {
   @UseGuards(MustAdminGuard)
   @Put("/v1/article")
   modifyArticle(@Body() modify_info : ModifyArticleDTO){
-    return this.articleService.modifyArticle(modify_info.articleId,modify_info.title,modify_info.content);
+    return this.articleService.modifyArticle(modify_info.articleId,modify_info.title,modify_info.shortbody,modify_info.content);
   }
 
   @UseGuards(MustAdminGuard)
   @Post("/v1/article")
   createArticle(@Body() create_info : CreateArticleDTO,@Session() { session }){
-    return this.articleService.createArticle(session.userId,create_info.title,create_info.content);
+    return this.articleService.createArticle(session.userId,create_info.title,create_info.shortbody,create_info.content);
   }
   @Get("/v1/article")
   getArticle(@Query() get_info: GetArticleDTO){    

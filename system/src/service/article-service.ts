@@ -16,6 +16,7 @@ export class ArticleService {
         return {
             articleId:article.id,
             title:article.title,
+            shortbody:article.shortbody,
             nickname:user.nickname,
             createdTime:article.createdAt
         }
@@ -39,16 +40,18 @@ export class ArticleService {
         };
 
     }
-    async createArticle(userId:number,title:string,content:string){
+    async createArticle(userId:number,title:string,shortbody:string,content:string){
         const article = new Article();
         article.userId = userId;
         article.title = title;
+        article.shortbody = shortbody;
         article.content = content;
         return this.articleManager.saveArticle(article);
     }
-    async modifyArticle(articleId:number,title:string,content:string){
+    async modifyArticle(articleId:number,title:string,shortbody:string,content:string){
         const article = await this.articleManager.getArticleOrFail(articleId);
         article.title = title;
+        article.shortbody = shortbody;
         article.content = content;
         return this.articleManager.saveArticle(article);
     }

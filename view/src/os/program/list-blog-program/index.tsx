@@ -1,8 +1,10 @@
-import { Program } from "./program";
+import { Program } from "../program";
 
 export class ListBlogProgram extends Program{
     static program_name = "ls";
-    
+    static description = "获取博客文章列表";
+    static usage = "ls [page]";
+
     handleInput(data:string): void {
          
     }

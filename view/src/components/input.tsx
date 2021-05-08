@@ -1,11 +1,12 @@
 export interface WInputProps{
     onChange:(event:any)=>void;
     defaultValue:string;
+    placeholder:string;
 }
 
 export function WInput(props:WInputProps){
 
-    return <input defaultValue={props.defaultValue} onChange={props.onChange} style={{
+    return <input placeholder={props.placeholder} defaultValue={props.defaultValue} onChange={props.onChange} style={{
         "height":"40px",
         "border": 0,
         "outline": 0,

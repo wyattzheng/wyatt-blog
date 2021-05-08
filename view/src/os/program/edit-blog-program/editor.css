@@ -15,6 +15,15 @@
     margin-left: -10px;
     letter-spacing: 2px;
 }
+.blogeditor_shortbody_prefix{
+    font-size:24px;
+    font-weight:100;
+    margin-top:20px;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    letter-spacing: 2px;
+
+}
 .blogeditor{
     padding-top:20px;
     height:100%;

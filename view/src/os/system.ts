@@ -54,6 +54,32 @@ export class EnvHolder implements IEnvHolder{
 
 }
 
+export class LocalStorageEnvHolder implements IEnvHolder{
+  getAll(){
+    const list=[];
+    for(let i=0;i<localStorage.length;i++){
+      const key = localStorage.key(i)!;
+      const value = this.get(key) || "";
+      list.push({key,value});
+    }
+    return list;
+  }
+  get(key:string) : string | undefined{
+    const val = localStorage.getItem(key);
+    if(val == null)
+      return;
+    return val;
+  }
+  has(key:string){
+    return !!this.get(key);
+  }
+  set(key:string,value:string){
+    localStorage.setItem(key,value);
+  }
+
+}
+
+
 
 export function useSystem(){
 
@@ -65,7 +91,7 @@ export function useSystem(){
 
     useEffect(()=>{
       fs.current = new MockFileSystem();
-      envHolder.current = new EnvHolder();
+      envHolder.current = new LocalStorageEnvHolder();
       network.current = Axios.create();
   
       system.current = {

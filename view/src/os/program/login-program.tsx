@@ -2,7 +2,9 @@ import { Program } from "./program";
 
 export class LoginProgram extends Program{
     static program_name = "login";
-    
+    static description = "登录用户账户";
+    static usage = "login <username> <password>";
+
     handleInput(data:string): void {
          
     }
@@ -18,8 +20,10 @@ export class LoginProgram extends Program{
 
         this.system.env.set("AUTH_TOKEN",session.token);
 
+        this.printLn("");
         this.printLn(`登录成功, 欢迎你 : ${userinfo.nickname}`);
         this.printLn(`会话信息: ${JSON.stringify(session)}`);
+        this.printLn("");
 
     }
     

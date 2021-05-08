@@ -5,7 +5,7 @@ export interface IMonitor{
   setDisplay : React.Dispatch<React.SetStateAction<JSX.Element>>,
 }
 
-export function useMonitor(){
+export function useMonitor() : IMonitor{
     const [display,setDisplay] = useState(<div></div>);
 
     return {

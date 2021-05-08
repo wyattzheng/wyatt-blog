@@ -9,8 +9,15 @@ import { useInput, useOutput } from '../os/stdio';
 import { useProgramContainer } from '../os/program/program';
 import { initProgramContainer } from './init-program';
 import { RiComputerLine } from "react-icons/ri"
+import { CLIProgram } from '../os/program/cli-program';
+import { parseHashCommand } from '../utils';
+import { useTerminal } from '../os/terminal';
 
-export function useAutoTerminalWidth(terminal:RefObject<Terminal>,setTerminalWidth:React.Dispatch<React.SetStateAction<number>>,system:React.MutableRefObject<ISystem | undefined>){
+export function useAutoTerminalWidth(
+    terminal:RefObject<Terminal>,
+    setTerminalWidth:React.Dispatch<React.SetStateAction<number>>,
+    system:React.MutableRefObject<ISystem | undefined>
+  ){
   useEffect(()=>{
     const updateTerminalWidth = ()=>{
       
@@ -31,26 +38,49 @@ export function useAutoTerminalWidth(terminal:RefObject<Terminal>,setTerminalWid
     return ()=>window.removeEventListener("resize",updateTerminalWidth);
   },[]);
 }
+
+function useHashTerminalInput(cli_program : React.MutableRefObject<CLIProgram | undefined>){
+  
+  useEffect(()=>{
+    const listener = async (event : any)=>{
+      const cli = cli_program.current;
+      const command = parseHashCommand(window.location.hash);
+      if(cli && cli.isLoaded() && command){
+        window.location.hash = "";
+        await cli.slowInputCommandText(command);
+      }
+    };
+    window.addEventListener("hashchange",listener)
+    return ()=>window.removeEventListener("hashchange",listener);
+  })
+//  cli.inputCommandText();
+
+}
 export function App() {
   const terminal = useRef<Terminal>(null);
+  const cli_program = useRef<CLIProgram>();
+  
+  
   const [terminalWidth,setTerminalWidth] = useState(800);
 
-  const monitor = useMonitor();
+  const os_monitor = useMonitor();
+  const os_terminal = useTerminal();
+
   const system = useSystem();
-  const [termVisible,setTermVisible] = useState(true);
 
   const [input,inputEmitter] = useInput();
   const output = useOutput(terminal);
-  const container = useProgramContainer(input,output,system,monitor);
+  const container = useProgramContainer(input,output,system,os_monitor,os_terminal);
 
   useAutoTerminalWidth(terminal,setTerminalWidth,system);
+  useHashTerminalInput(cli_program);
 
 
   function onTermToggleClicked(){
-    setTermVisible(true);
+    os_terminal.setVisible(true);
   }
   function onMonitorFocus(){
-    setTermVisible(false);
+    os_terminal.setVisible(false);
   }
 
 
@@ -58,23 +88,24 @@ export function App() {
 
     initProgramContainer(container.current!);
 
-    const cli_program = container.current!.getNewProgram("cli");
-    cli_program.run(container.current!,["bootstrap"]);
+    cli_program.current = container.current!.getNewProgram("cli") as CLIProgram;
+    cli_program.current.run(container.current!,["bootstrap","show"]);
 
   },[container]);
+  
 
   return (
-    <SystemContext.Provider value={{ system, monitor }}>
+    <SystemContext.Provider value={{ system, monitor:os_monitor,terminal:os_terminal }}>
       <div className="app">
           <div onFocus={onMonitorFocus} onMouseUp={onMonitorFocus} className="display-box">
             <div className="display">
-              { monitor.display }
+              { os_monitor.display }
             </div>
           </div>
-          <div className="terminal-toggle-button" onClick={onTermToggleClicked} style={{display: termVisible? "none" : undefined}}>
+          <div className="terminal-toggle-button" onClick={onTermToggleClicked} style={{display: os_terminal.visible? "none" : undefined}}>
             <RiComputerLine />
           </div>
-          <div className="terminal-area" style={{ display: termVisible? undefined : "none"}}>
+          <div className="terminal-area" style={{ display: os_terminal.visible? undefined : "none"}}>
             
             <WTerminal className="wterm" style={{ width:`${terminalWidth}px` }} cols={85} rows={10} ref={terminal} onKey={(data)=>{inputEmitter.current!.emit("data",data)}}></WTerminal>
               

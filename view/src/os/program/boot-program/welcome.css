@@ -1,0 +1,30 @@
+
+.profile{
+    text-align:center;
+    font-family: Merriweather, Georgia, serif;
+    font-weight:900;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    height:100%;
+    padding-bottom:30px;
+}
+
+.profile_avatar{
+    width:250px;
+    height:250px;            
+    margin-bottom:20px;
+}
+.profile_avatar_img{
+    width:100%;
+    height:100%;
+    border-radius:20px;
+}
+.profile_hello{
+    font-size:50px
+}
+.profile_welcome{
+    font-size:20px;
+    margin-top:20px;
+}

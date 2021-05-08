@@ -1,5 +1,7 @@
-import { wait } from "../../utils";
-import { Program } from "./program";
+import { wait } from "../../../utils";
+import { Program } from "../program";
+
+import "./welcome.css";
 
 const MOTD =[
 '',
@@ -22,14 +24,21 @@ const MOTD_MIN =[
     '╚══════╝╚═╝  ╚═╝   ╚═╝   ',
     ''
     ];
-/**
- * 从外部导入系统内的环境变量键名
- */
-export const ImportEnvs = ["SERVER_URL"]
 
+export function WelcomePage(){
+    return <div className="profile">
+        <div className="profile_avatar">
+            <img className="profile_avatar_img" src="/avatar.jpg" alt="wyatt" />
+        </div>
+        <div className="profile_hello"> Hi, I'm Wyatt </div>
+        <div className="profile_welcome"> Welcome to my blog 🧡 </div>
+    </div>
+}
 export class BootProgram extends Program{
     static program_name = "bootstrap";
-    
+    static description = "初始化系统并设置环境变量";
+    static usage = "bootstrap";
+
     handleInput(data:string): void {
          
     }
@@ -39,14 +48,12 @@ export class BootProgram extends Program{
     }
     protected async execute(): Promise<void> {
 
-        this.monitor.setDisplay(<div>
-            欢迎来到 Wyatt 的博客系统
-        </div>)
+        this.monitor.setDisplay(<WelcomePage/>)
 
         this.printLn(`\r\nBootstrapping....\r\n`);
         
         this.setEnv("SERVER_URL",process.env["SERVER_URL"]);
-        
+
         
         await wait(500);
         await this.printMotd();

@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "chalk": "^4.1.1",
     "eventemitter2": "^6.4.4",
     "highlight.js": "^10.7.2",
     "moment": "^2.29.1",

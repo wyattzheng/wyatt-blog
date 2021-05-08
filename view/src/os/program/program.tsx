@@ -2,16 +2,22 @@ import Axios from "axios";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { IMonitor } from "../monitor";
 import { ISystem } from "../system";
+import { ITerminal } from "../terminal";
 
 
 export interface ProgramImpl{
     program_name:string;
+    description:string;
+    usage:string;
+    
     new (...args:any[]): IProgram;
 }
 export interface IProgramContainer{
     addProgramImpl(impl : ProgramImpl) : void;
     hasProgramImpl(name:string):boolean;
+    getProgramImpl(name:string):ProgramImpl;
     getNewProgram(name:string,...args:any[]): IProgram;
+    getAllImpls():ProgramImpl[];
 }
 
 /**
@@ -51,7 +57,8 @@ export abstract class Program implements IProgram{
             protected stdin : StdInput,
             protected stdout : StdOutput,
             protected system : ISystem,
-            protected monitor : IMonitor
+            protected monitor : IMonitor,
+            protected terminal : ITerminal
         ){
     }
     private start(){
@@ -111,15 +118,24 @@ export class ProgramContainer implements IProgramContainer{
         private stdin : StdInput,
         private stdout : StdOutput,
         private system : ISystem,
-        private monitor : IMonitor
+        private monitor : IMonitor,
+        private terminal : ITerminal
     ){ }
+    getProgramImpl(name: string): ProgramImpl {
+        if(!this.hasProgramImpl(name))
+            throw new Error(`该程序 ${name} 不存在`);
+        return this.implMap.get(name)!;
+    }
+    getAllImpls(): ProgramImpl[] {
+        return Array.from(this.implMap.values());
+    }
     addProgramImpl(impl: ProgramImpl): void {
         this.implMap.set(impl.program_name,impl);
     }
     getNewProgram(name:string,...args: any[]): IProgram {
         const Impl = this.implMap.get(name)!;
         
-        return new Impl(this.stdin,this.stdout,this.system,this.monitor);
+        return new Impl(this.stdin,this.stdout,this.system,this.monitor,this.terminal);
     }
     hasProgramImpl(name:string){
         return this.implMap.has(name);
@@ -131,13 +147,14 @@ export function useProgramContainer(
         stdin : MutableRefObject<StdInput | undefined>,
         stdout : MutableRefObject<StdOutput | undefined>,
         system : MutableRefObject<ISystem | undefined>,
-        monitor : IMonitor
+        monitor : IMonitor,
+        terminal : ITerminal
     ) : MutableRefObject<IProgramContainer | undefined>{
     const container = useRef<IProgramContainer>();
   
     useEffect(()=>{
-      container.current = new ProgramContainer(stdin.current!,stdout.current!,system.current!,monitor);
-    },[container,stdin,stdout,system,monitor]);
+      container.current = new ProgramContainer(stdin.current!,stdout.current!,system.current!,monitor,terminal);
+    },[container,stdin,stdout,system,monitor,terminal]);
   
     return container;
 }

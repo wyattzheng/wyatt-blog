@@ -1,6 +1,8 @@
+
 import { EventEmitter2 } from "eventemitter2";
-import { wait } from "../../utils";
+import { wait, Chalk } from "../../utils";
 import { IProgramContainer, Program } from "./program";
+
 
 export interface IParsedCommand{
     cmd:string,
@@ -52,17 +54,20 @@ export class LineHistory{
 
 export class CLIProgram extends Program{
     static program_name = "cli";
+    static description = "终端程序";
+    static usage = "cli";
 
     private running : boolean = false;
     private eventBus = new EventEmitter2();
     private nextLine = false;
-    private isFirstRun = false;
+    private isFirstRun = true;
 
     private keyinputBuffer : string[] = [];
     private lineBuf = "";
     private history = new LineHistory();
 
     private exited = false;
+    private container? : IProgramContainer;
 
     handleInput(input: { key: string, domEvent: KeyboardEvent }): void {
         if(this.running === false){
@@ -123,26 +128,47 @@ export class CLIProgram extends Program{
 
         this.lineBuf = "";
     }
+    public isLoaded(){
+        return this.isFirstRun === false;
+    }
     public inputCommandText(cmd_text:string,nextLine:boolean = true){
+        this.terminal.setVisible(true);
+
         this.keyinputBuffer.push(...cmd_text.split(""));
         if(nextLine === true){
             this.keyinputBuffer.push("\r");
             this.consumeLine();
         }
     }
+    public async slowInputCommandText(cmd_text:string,typing_ms:number = 20){
+        this.terminal.setVisible(true);
 
+        for(const char of cmd_text){
+            this.keyinputBuffer.push(char);
+            this.consumeLine();
+            await wait(typing_ms);
+        }
+        this.keyinputBuffer.push("\r");
+        this.consumeLine();
+    }
+    public getProgramContainer(){
+        if(!this.container)
+            throw new Error(`获取程序容器失败`);
+        return this.container;
+    }
     /**
      * CLI Program 是一个 forever loop
      * 常驻执行的程序
      */
     protected async execute(container : IProgramContainer,initCommands:string[] = []): Promise<void> {
-
+        this.container = container;
+            
         while(!this.exited){
-
+            
             this.nextLine = false;
 
             this.printPrefix();
-            this.tryToInit(container,initCommands);
+            this.tryToInit(initCommands);
             this.consumeLine();
 
             const line = await this.waitForLine();
@@ -151,7 +177,7 @@ export class CLIProgram extends Program{
             this.history.addLineHistory(line);
 
             try{
-                await this.runCommand(container,parsed.cmd,parsed.args);  
+                await this.runCommand(parsed.cmd,parsed.args);  
             }catch(err){
                 this.printLn(err.message);
             }
@@ -159,19 +185,19 @@ export class CLIProgram extends Program{
 
         }
     }
-    private async tryToInit(container : IProgramContainer, initCommands:string[]){
-        if(this.isFirstRun === true)
+    
+    private async tryToInit(initCommands:string[]){
+        if(this.isFirstRun === false)
             return;
 
         for(const cmd of initCommands){
             this.inputCommandText(cmd);
         }
 
-        this.isFirstRun = true;
-
+        this.isFirstRun = false;
 
     }
-    private async runCommand(container:IProgramContainer,cmd :string,args:string[]){
+    private async runCommand(cmd :string,args:string[]){
         if(cmd === "exit"){
             this.printLn("CLI 程序已退出");
             this.exited = true;
@@ -180,10 +206,12 @@ export class CLIProgram extends Program{
             this.stdout.clear();
         }else if(cmd === ""){
         }else{
-            await this.runProgram(container,cmd,args);
+            await this.runProgram(cmd,args);
         }
     }
-    private async runProgram(container : IProgramContainer, name:string,args:string[]){
+    private async runProgram(name:string,args:string[]){
+        const container = this.getProgramContainer();
+
         if(container.hasProgramImpl(name) === false){
             this.printLn(`程序 ${name} 不存在!`);
             return;
@@ -214,6 +242,8 @@ export class CLIProgram extends Program{
         
     }
     private printPrefix(){
-        this.stdout.writeData("Wyatt Blog OS $ ");
+        const loginChar = this.isLogined() ? "#" : "$";
+
+        this.stdout.writeData(`${Chalk.bold.blue`Wyatt Blog OS`} ${Chalk.bold.red(loginChar)} `);
     }
 }

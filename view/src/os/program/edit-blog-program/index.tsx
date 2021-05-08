@@ -5,18 +5,25 @@ import { WInput } from "../../../components/input";
 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-markdown"
-import "ace-builds/src-noconflict/theme-kuroir"
+import "ace-builds/src-noconflict/theme-chrome"
 
 import "./editor.css";
 import { ChangeEvent } from "react";
 
 export class EditBlogProgram extends Program{
     static program_name = "edit";
+    static description = "编辑或创建一篇博客文章";
+    static usage = "edit [articleId]";
+
+    private mode : "edit" | "new" = "edit";
+
     private eventBus = new EventEmitter2();
     private exited = false;
     private hasChanges = false;
     private articleId : number | undefined;
+
     private title_text:string = "";
+    private shortbody_text:string = "";
     private content_text:string = "";
 
     handleInput(data:{key:string}): void {
@@ -31,6 +38,10 @@ export class EditBlogProgram extends Program{
         this.hasChanges = true;
 
     }
+    private handleShortbodyInput(text:string){
+        this.shortbody_text = text;
+        this.hasChanges = true;
+    }
     private handleTitleInput(event:ChangeEvent<HTMLInputElement>){
         this.title_text = event.currentTarget.value;
         this.hasChanges = true;
@@ -40,33 +51,60 @@ export class EditBlogProgram extends Program{
         const { data : article } = await this.network().get("/v1/article",{ params:{ articleid:articleId } });
         this.title_text = article.title;
         this.content_text = article.content;
-
+        this.shortbody_text = article.shortbody;
+    }
+    private openEditor(){
+        
         this.monitor.setDisplay(
             <div className="blogeditor">
-                <div className="blogeditor_title_prefix">标题: </div>
+                <div className="blogeditor_title_prefix">标题</div>
             
-                <WInput onChange={this.handleTitleInput.bind(this)} defaultValue={article.title}></WInput>
+                <WInput placeholder="请输入文章标题" onChange={this.handleTitleInput.bind(this)} defaultValue={this.title_text}></WInput>
 
-                <div className="blogeditor_content_prefix">正文：</div>
+                <div className="blogeditor_shortbody_prefix">简介</div>
+                
+                <AceEditor minLines={10} maxLines={10} mode="markdown" theme="chrome" fontSize={16} value={this.shortbody_text} height="100%" width="100%" className="blogeditor" onChange={this.handleShortbodyInput.bind(this)} />
+                 
+                <div className="blogeditor_content_prefix">正文</div>
                   
-                <AceEditor mode="markdown" theme="kuroir" fontSize={16} value={article.content} height="100%" width="100%" className="blogeditor" onChange={this.handleEditorText.bind(this)} />
+                <AceEditor minLines={60} maxLines={60} mode="markdown" theme="chrome" fontSize={16} value={this.content_text} height="100%" width="100%" className="blogeditor" onChange={this.handleEditorText.bind(this)} />
+
+                
             </div>
         );
     }
-    protected async execute(cli : CLIProgram, param_articleId:string): Promise<void> {
-        if(!param_articleId)
-            throw new Error(`请提供要编辑的文章的ID`);            
+    private async initProgram(param_articleId?:string){
+
+        if(!param_articleId){
+            this.mode = "new";
+        }else{
+            this.mode = "edit";
+        }
+
+
+        if(this.mode === "edit"){
+            this.articleId = parseInt(param_articleId!);
+            await this.loadArticle(this.articleId);
+        }
+
         if(!this.isLogined())
-            this.printLn("\r\n当前您未登陆, 将无法进行保存操作.\r\n");
-        
+        this.printLn("\r\n当前您未登陆, 将无法进行保存操作.\r\n");
     
-        const articleId = parseInt(param_articleId);
-        this.articleId = articleId;
+        if(this.mode === "new"){
+            this.printLn("文章创建模式\r\n");
+        }else{
+            this.printLn("文章编辑模式\r\n");
+        }
 
-        await this.loadArticle(articleId);
-
-        this.printLn("博客编辑程序已启动\r\n");
         this.printLn("[q]: 退出, [s]: 保存\r\n");
+
+
+    }
+    protected async execute(cli : CLIProgram, param_articleId?:string): Promise<void> {
+ 
+        await this.initProgram();
+
+        this.openEditor();
 
         while(true){
             const [cmd] = await this.eventBus.waitFor("CommandEvent");
@@ -75,7 +113,6 @@ export class EditBlogProgram extends Program{
                 await this.handleCommand(cmd);
             }catch(err){
                 this.printLn(err.message);
-                break;
             }
  
 
@@ -101,7 +138,11 @@ export class EditBlogProgram extends Program{
 
         this.printLn("开始保存...");
         
-        await this.network(true).put("/v1/article",{ articleId:this.articleId,title:this.title_text,content:this.content_text })
+        if(this.mode === "new"){
+            await this.network(true).post("/v1/article",{ articleId:this.articleId,title:this.title_text,    shortbody:this.shortbody_text,content:this.content_text })
+        }else{
+            await this.network(true).put("/v1/article",{ articleId:this.articleId,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text })
+        }
 
         this.printLn("保存完毕");
         this.hasChanges = false;

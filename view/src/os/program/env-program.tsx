@@ -2,7 +2,9 @@ import { Program } from "./program";
 
 export class EnvProgram extends Program{
     static program_name = "env";
-    
+    static description = "设置/获取系统环境变量";
+    static usage = "env <set|get> <key> <value>";
+
     handleInput(data:string): void {
          
     }
