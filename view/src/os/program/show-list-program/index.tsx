@@ -1,8 +1,9 @@
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import { Program } from "../program";
-import {highlightPlugin} from "../../../utils/highlight"
-
+import { highlightPlugin } from "../../../utils/highlight"
+import { WContainer } from "../../../components/container";
+import "github-markdown-css/github-markdown.css";
 import "./showlist.css";
 
 export interface BlogListPageProps{
@@ -12,6 +13,7 @@ export interface BlogListPageProps{
         pages:number,
         list:{
             articleId:number,
+            categoryName:string,
             title:string,
             nickname:string,
             shortbody:string,
@@ -25,6 +27,7 @@ export function BlogListPage(props : BlogListPageProps){
     const list_content = [];
     const page_selectors = []
 
+    
     for(const [key,article] of props.list.list.entries())
         list_content.push(
             <div key={key} className="articlelist_item">
@@ -43,6 +46,13 @@ export function BlogListPage(props : BlogListPageProps){
                     </a>
                 </div>
                 <div className="articlelist_item_metadata">
+                    <div className="articlelist_item_category">
+                        [
+                        {
+                            article.categoryName
+                        }
+                        ]
+                    </div>
                     <div className="articlelist_item_createdTime">
                         {
                             moment(article.createdTime).format("YYYY年MM月DD日 HH时mm分")
@@ -50,7 +60,7 @@ export function BlogListPage(props : BlogListPageProps){
                     </div>
                 </div>
 
-                <ReactMarkdown className="articlelist_item_shortbody" rehypePlugins={[highlightPlugin]} >
+                <ReactMarkdown className="articlelist_item_shortbody markdown-body" rehypePlugins={[highlightPlugin]} >
                     {
                         article.shortbody
                     }
@@ -73,11 +83,12 @@ export function BlogListPage(props : BlogListPageProps){
         );
     }
     return (
-        <>
+        <WContainer>
+            
             <div className="articlelist">{ list_content }</div>
             <div className="pageselector">{ page_selectors }</div>
 
-        </>
+        </WContainer>
     );
 }
 
@@ -85,7 +96,7 @@ export function BlogListPage(props : BlogListPageProps){
 export class ShowListProgram extends Program{
     static program_name = "show";
     static description = "显示博客文章的图形列表";
-    static usage = "show <page>";
+    static usage = "show [page]";
 
     handleInput(data:string): void { }
 

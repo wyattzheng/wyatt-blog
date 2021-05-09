@@ -1,0 +1,8 @@
+.middlecontainer{
+    margin:0 auto;
+    max-width:1000px;
+    padding:20px;
+    width:100%;
+    box-sizing: border-box;
+    color:#FFF;
+}

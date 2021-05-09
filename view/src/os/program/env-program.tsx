@@ -3,7 +3,14 @@ import { Program } from "./program";
 export class EnvProgram extends Program{
     static program_name = "env";
     static description = "设置/获取系统环境变量";
-    static usage = "env <set|get> <key> <value>";
+    static usage = [
+        "env <set|get> <key> <value>",
+        "",
+        "设置环境变量: env set ENVIRONMENT VALUE",
+        "获取全部环境变量: env"
+    ].join("\r\n");
+
+    
 
     handleInput(data:string): void {
          

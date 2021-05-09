@@ -1,6 +1,6 @@
 
 import { EventEmitter2 } from "eventemitter2";
-import { wait, Chalk } from "../../utils";
+import { wait, Chalk, getWordWidth } from "../../utils";
 import { IProgramContainer, Program } from "./program";
 
 
@@ -69,9 +69,9 @@ export class CLIProgram extends Program{
     private exited = false;
     private container? : IProgramContainer;
 
-    handleInput(input: { key: string, domEvent: KeyboardEvent }): void {
+    handleInput(input:string): void {
         if(this.running === false){
-            this.keyinputBuffer.push(input.key);
+            this.keyinputBuffer.push(input);
             this.consumeLine();
         }
     }
@@ -92,8 +92,11 @@ export class CLIProgram extends Program{
             {
                 if(this.lineBuf.length <= 0)
                     return;
-                
-                this.stdout.writeData("\b \b");
+
+                for(let i=0;i<getWordWidth(this.getLastWord());i++){
+                    this.stdout.writeData("\b \b");
+                }
+
                 this.lineBuf = this.lineBuf.substr(0,this.lineBuf.length-1);
             }
             else if(inputKey === "\u001b\u005b\u0043"){//→
@@ -120,7 +123,12 @@ export class CLIProgram extends Program{
         this.inputClearLine();
         this.inputCommandText(historyText,false);
     }
+private getLastWord(){
+    if(this.lineBuf.length < 1)
+    return ""
 
+    return this.lineBuf.substr(-1,1)
+}
     private inputClearLine(){
         for(let i=0;i<this.lineBuf.length;i++){
             this.stdout.writeData("\b \b");

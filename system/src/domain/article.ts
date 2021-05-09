@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedCol
 
 export interface SimpifiedArticle{
     articleId:number,
+    categoryName:string,
     title:string,
     shortbody:string,
     nickname:string,
@@ -16,6 +17,9 @@ export class Article{
 
     @Column()
     userId : number;
+
+    @Column()
+    categoryId:number;
 
     @Column("text")
     title : string;

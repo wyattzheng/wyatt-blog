@@ -23,11 +23,11 @@ export function useAutoTerminalWidth(
       
       const screenWidth = document.body.offsetWidth;
       if(screenWidth > 800){
-        terminal.current!.resize(85,10);
+        terminal.current!.resize(85,15);
         setTerminalWidth(800);
         system.current!.env.set("SCREEN_MODE","MIDDLE");
       }else{
-        terminal.current!.resize(40,10);
+        terminal.current!.resize(40,15);
         setTerminalWidth(400);
 
         system.current!.env.set("SCREEN_MODE","MINIMAL");
@@ -107,7 +107,7 @@ export function App() {
           </div>
           <div className="terminal-area" style={{ display: os_terminal.visible? undefined : "none"}}>
             
-            <WTerminal className="wterm" style={{ width:`${terminalWidth}px` }} cols={85} rows={10} ref={terminal} onKey={(data)=>{inputEmitter.current!.emit("data",data)}}></WTerminal>
+            <WTerminal className="wterm" style={{ width:`${terminalWidth}px` }} cols={85} rows={15} ref={terminal} onData={(data)=>{inputEmitter.current!.emit("data",data)}}></WTerminal>
               
           </div>
           

@@ -8,7 +8,7 @@ export class HelpProgram extends Program{
     static usage = "help [command]";
     private container?: IProgramContainer;
 
-    handleInput(data: any): void {
+    handleInput(data: string): void {
         
     }
     protected async execute(cli:CLIProgram,command?:string): Promise<void> {

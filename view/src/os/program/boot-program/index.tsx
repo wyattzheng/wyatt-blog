@@ -1,3 +1,4 @@
+import { WContainer } from "../../../components/container";
 import { wait } from "../../../utils";
 import { Program } from "../program";
 
@@ -26,13 +27,15 @@ const MOTD_MIN =[
     ];
 
 export function WelcomePage(){
-    return <div className="profile">
-        <div className="profile_avatar">
-            <img className="profile_avatar_img" src="/avatar.jpg" alt="wyatt" />
+    return (<WContainer className="profile_container">        
+        <div className="profile">
+            <div className="profile_avatar">
+                <img className="profile_avatar_img" src="/avatar.jpg" alt="wyatt" />
+            </div>
+            <div className="profile_hello"> Hi, I'm Wyatt </div>
+            <div className="profile_welcome"> Welcome to my blog 🧡 </div>
         </div>
-        <div className="profile_hello"> Hi, I'm Wyatt </div>
-        <div className="profile_welcome"> Welcome to my blog 🧡 </div>
-    </div>
+    </WContainer>);
 }
 export class BootProgram extends Program{
     static program_name = "bootstrap";
@@ -57,6 +60,8 @@ export class BootProgram extends Program{
         
         await wait(500);
         await this.printMotd();
+
+        this.printLn("输入命令 help 获取命令菜单");
     }
     private async printMotd(){
         const screen_mode = this.system.env.get("SCREEN_MODE");

@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Article } from '../domain/article';
+import { Category } from '../domain/category';
 
 
 @Injectable()
 export class ArticleManager {
     constructor(
-        @InjectRepository(Article) private articleList : Repository<Article>,
+        @InjectRepository(Article) private articleList : Repository<Article>
     ){ }
 
     getLatestList(start:number,length:number){

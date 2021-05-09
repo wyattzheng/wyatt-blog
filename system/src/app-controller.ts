@@ -1,67 +1,65 @@
-import { BadRequestException, Body, Controller, Get, Optional, Post, Put, Query, Session, UseGuards } from '@nestjs/common';
-import { IsNotEmpty, IsNumber, IsNumberString, IsString } from 'class-validator';
+import { BadRequestException, Body, Controller, Delete, Get, Optional, Post, Put, Query, Session, UseGuards } from '@nestjs/common';
+import { IsNumber, IsNumberString, IsString } from 'class-validator';
 import { MustAdminGuard } from './filter/admin-guard';
 import { ArticleService } from './service/article-service';
+import { CategoryService } from './service/category-service';
 import { UserService } from './service/user-service';
 
 export class UserPassDTO{
-  @IsNotEmpty()
+  @IsString()
   username:string;
 
-  @IsNotEmpty()
+  @IsString()
   password:string;
 }
 
 export class CreateArticleDTO{
 
-  @IsNotEmpty()
   @IsString()
   title:string;
-  
-  @IsNotEmpty()
+
+  @IsNumber()
+  category_id:number;
+
   @IsString()
   shortbody:string;
 
-  @IsNotEmpty()
   @IsString()
   content:string;
 
 }
 
 export class GetArticleListDTO{
-  @IsNotEmpty()
   @IsNumberString()
   page : string;
 
-  @IsNotEmpty()
   @IsNumberString()
   count : string;
 }
 
 export class ModifyArticleDTO{
   
-  @IsNotEmpty()
   @IsString()
   title:string;
 
-  @IsNotEmpty()
+  @IsNumber()
+  category_id:number;
+
   @IsString()
   shortbody:string;
 
-  @IsNotEmpty()
   @IsString()
   content:string;
 
-  @IsNotEmpty()
   @IsNumber()
-  articleId : number;
+  article_id : number;
 
 }
 
 export class GetArticleDTO{
-  @IsNotEmpty()
+
   @IsNumberString()
-  articleid:string;
+  article_id:string;
 }
 
 export class GetUserInfoDTO{
@@ -72,11 +70,41 @@ export class GetUserInfoDTO{
   userid:string
 }
 
+export class CreateCategoryDTO{
+  @IsString()
+  name:string;  
+
+  @IsString()
+  description:string;
+}
+export class RemoveCategoryDTO{
+  @IsNumber()
+  category_id:number;
+
+}
+
+export class ModifyCategoryDTO{
+  @IsNumber()
+  category_id:number;
+
+  @IsString()
+  name:string;  
+
+  @IsString()
+  description:string;
+}
+
+export class RemoveArticleDTO{
+  @IsNumber()
+  article_id:number;
+}
+
 @Controller()
 export class AppController {
   constructor(
       private userService : UserService,
       private articleService : ArticleService,
+      private categoryService : CategoryService,
       
     ) {}
 
@@ -103,17 +131,23 @@ export class AppController {
   @UseGuards(MustAdminGuard)
   @Put("/v1/article")
   modifyArticle(@Body() modify_info : ModifyArticleDTO){
-    return this.articleService.modifyArticle(modify_info.articleId,modify_info.title,modify_info.shortbody,modify_info.content);
+    return this.articleService.modifyArticle(modify_info.article_id,modify_info.title,modify_info.shortbody,modify_info.content,modify_info.category_id);
   }
 
   @UseGuards(MustAdminGuard)
   @Post("/v1/article")
   createArticle(@Body() create_info : CreateArticleDTO,@Session() { session }){
-    return this.articleService.createArticle(session.userId,create_info.title,create_info.shortbody,create_info.content);
+    return this.articleService.createArticle(session.userId,create_info.title,create_info.shortbody,create_info.content,create_info.category_id);
   }
   @Get("/v1/article")
   getArticle(@Query() get_info: GetArticleDTO){    
-    return this.articleService.getArticleOrFail(parseInt(get_info.articleid));
+    return this.articleService.getArticleOrFail(parseInt(get_info.article_id));
+  }
+
+  @UseGuards(MustAdminGuard)
+  @Delete("/v1/article")
+  removeArticle(@Body() remove_info: RemoveArticleDTO){    
+    return this.articleService.removeArticle(remove_info.article_id);
   }
 
   @Get("/v1/article/list")
@@ -121,5 +155,29 @@ export class AppController {
 
     return this.articleService.getLatestList(parseInt(query.page),parseInt(query.count));
   }
+
+  @Get("/v1/category/list")
+  getAllCategories(){
+    return this.categoryService.getAllCategories();
+  }
+
+  @UseGuards(MustAdminGuard)
+  @Post("/v1/category")
+  createCategory(@Body() create_info : CreateCategoryDTO){
+    return this.categoryService.createCategory(create_info.name,create_info.description);
+  }
+
+  @UseGuards(MustAdminGuard)
+  @Delete("/v1/category")
+  removeCategory(@Body() remove_info : RemoveCategoryDTO){
+    return this.categoryService.removeCategory(remove_info.category_id);
+  }
+
+  @UseGuards(MustAdminGuard)
+  @Put("/v1/category")
+  modifyCategory(@Body() modify_info : ModifyCategoryDTO){
+    return this.categoryService.modifyCategory(modify_info.category_id,modify_info.name,modify_info.description);
+  }
+
 
 }

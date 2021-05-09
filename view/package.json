@@ -10,8 +10,10 @@
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "eventemitter2": "^6.4.4",
+    "github-markdown-css": "^4.0.0",
     "highlight.js": "^10.7.2",
     "moment": "^2.29.1",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "react": "^17.0.2",
     "react-ace": "^9.4.0",
     "react-dom": "^17.0.2",
@@ -27,7 +29,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:docker": "docker build -t wyatt-blog-view",
+    "deploy:docker": "docker run -d -p 9000:80 wyatt-blog-view"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +53,8 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.4",
-    "dotenv-webpack": "^7.0.2"
+    "dotenv-webpack": "^7.0.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-bundle-analyzer": "^4.4.1"
   }
 }

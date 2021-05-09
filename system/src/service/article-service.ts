@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Article,SimpifiedArticle } from '../domain/article';
+import { Category } from '../domain/category';
 import { ArticleManager } from '../manager/article-manager';
+import { CategoryManager } from '../manager/category-manager';
 import { UserManager } from '../manager/user-manager';
 import { getPageCount } from '../utils';
 
@@ -8,14 +12,17 @@ import { getPageCount } from '../utils';
 export class ArticleService {
     constructor(
         private articleManager : ArticleManager,
-        private userManager : UserManager
+        private userManager : UserManager,
+        private categoryManager:CategoryManager
+    
     ){ }
     private async getSimpifiedArticle(article:Article):Promise<SimpifiedArticle>{
         const user = await this.userManager.getUserOrFail(article.userId,true);
-
+        const categoryName = await this.categoryManager.getDisplayName(article.categoryId);
         return {
             articleId:article.id,
             title:article.title,
+            categoryName,
             shortbody:article.shortbody,
             nickname:user.nickname,
             createdTime:article.createdAt
@@ -40,19 +47,23 @@ export class ArticleService {
         };
 
     }
-    async createArticle(userId:number,title:string,shortbody:string,content:string){
+    async createArticle(userId:number,title:string,shortbody:string,content:string,categoryId:number){
         const article = new Article();
         article.userId = userId;
         article.title = title;
         article.shortbody = shortbody;
         article.content = content;
+        article.categoryId = categoryId;
+
         return this.articleManager.saveArticle(article);
     }
-    async modifyArticle(articleId:number,title:string,shortbody:string,content:string){
+    async modifyArticle(articleId:number,title:string,shortbody:string,content:string,categoryId:number){
         const article = await this.articleManager.getArticleOrFail(articleId);
         article.title = title;
         article.shortbody = shortbody;
         article.content = content;
+        article.categoryId = categoryId;
+
         return this.articleManager.saveArticle(article);
     }
 

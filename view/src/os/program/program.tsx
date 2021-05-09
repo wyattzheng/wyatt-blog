@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { MutableRefObject, useEffect, useRef } from "react";
+import { WContainer } from "../../components/container";
 import { IMonitor } from "../monitor";
 import { ISystem } from "../system";
 import { ITerminal } from "../terminal";
@@ -68,7 +69,7 @@ export abstract class Program implements IProgram{
         this.stdin.removeDataListener(this.inputListener);
     }
     protected setDefaultDisplay(){
-        this.monitor.setDisplay(<div>当前未运行程序, 请在终端界面输入命令</div>)
+        this.monitor.setDisplay(<WContainer>当前未运行程序, 请在终端界面输入 help 获取帮助.</WContainer>)
     }
     protected isLogined(){
         const authToken = this.system.env.get("AUTH_TOKEN");

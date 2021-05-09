@@ -22,4 +22,9 @@ export function parseHashCommand(raw_hash:string):string | undefined{
     return items.slice(3).join(" ").trim();
 }
 
+export function getWordWidth(char:string){
+    if(char.charCodeAt(0)>127)
+        return 2;
+    return 1;
+}
 

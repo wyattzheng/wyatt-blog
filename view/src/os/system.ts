@@ -31,6 +31,7 @@ export interface IEnvHolder{
   get(key:string):string | undefined;
   has(key:string):boolean;
   set(key:string,value:string):void;
+  remove(key:string):void;
 }
 
 export class EnvHolder implements IEnvHolder{
@@ -50,6 +51,9 @@ export class EnvHolder implements IEnvHolder{
   }
   set(key:string,value:string){
     this.envMap.set(key,value);
+  }
+  remove(key:string){
+    this.envMap.delete(key);
   }
 
 }
@@ -75,6 +79,9 @@ export class LocalStorageEnvHolder implements IEnvHolder{
   }
   set(key:string,value:string){
     localStorage.setItem(key,value);
+  }
+  remove(key:string){
+    localStorage.removeItem(key);
   }
 
 }

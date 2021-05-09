@@ -8,6 +8,9 @@ import { EnvProgram } from '../os/program/env-program';
 import { ListBlogProgram } from '../os/program/list-blog-program/index';
 import { HelpProgram } from '../os/program/help-program';
 import { ShowListProgram } from '../os/program/show-list-program';
+import { CategoryProgram } from '../os/program/category-program';
+import { RemoveArticleProgram } from '../os/program/remove-blog-program';
+import { LogoutProgram } from '../os/program/logout-program';
 
 
 export function initProgramContainer(container : IProgramContainer){
@@ -20,5 +23,7 @@ export function initProgramContainer(container : IProgramContainer){
     container.addProgramImpl(EnvProgram);
     container.addProgramImpl(HelpProgram);
     container.addProgramImpl(ShowListProgram);
-
+    container.addProgramImpl(CategoryProgram);
+    container.addProgramImpl(RemoveArticleProgram)
+    container.addProgramImpl(LogoutProgram);
 }
