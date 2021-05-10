@@ -27,8 +27,8 @@ export function useAutoTerminalWidth(
         setTerminalWidth(800);
         system.current!.env.set("SCREEN_MODE","MIDDLE");
       }else{
-        terminal.current!.resize(40,15);
-        setTerminalWidth(400);
+        terminal.current!.resize(30,15);
+        setTerminalWidth(300);
 
         system.current!.env.set("SCREEN_MODE","MINIMAL");
       }  

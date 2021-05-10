@@ -36,3 +36,17 @@
     align-items: center;
     height: 100%;
 }
+
+
+@media screen and (max-width:800px){
+    .profile_hello{
+        font-size:40px;
+    }
+    .profile_welcome{
+        font-size:20px;
+    }
+    .profile{
+        padding-top:30px;
+        justify-content:flex-start;
+    }
+  }
