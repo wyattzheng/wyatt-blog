@@ -26,7 +26,10 @@ module.exports = {
                 parallel:true,
                 sourceMap:true
             }),
-            new DotenvPlugin(),
+            new DotenvPlugin({
+                safe: true,
+                systemvars: true
+            }),
             ...BundleAnalyzer,
         
         ],
