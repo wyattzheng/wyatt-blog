@@ -68,7 +68,16 @@ export class EditBlogProgram extends Program{
             category_list.push({key:item.id,value:item.name});
         }
         this.category_list = category_list;
+        this.setDefaultCategoryId();
+    }
+    private setDefaultCategoryId(){
+        if(this.category_list.length <= 0){
+            this.category_id = -1;
+            return;
+        }
+
         this.category_id = parseInt(this.category_list[0].key);
+
     }
     private handleCategoryChange(event:any){
         this.category_id = parseInt(event.currentTarget.value);
@@ -84,7 +93,7 @@ export class EditBlogProgram extends Program{
 
                     <div className="blogeditor_category_prefix">分类</div>
                     
-                    <WSelector defaultValue={this.category_list[0].key} className="blogeditor_category" list={this.category_list} onChange={this.handleCategoryChange.bind(this)}></WSelector>
+                    <WSelector defaultValue={this.category_id.toString()} className="blogeditor_category" list={this.category_list} onChange={this.handleCategoryChange.bind(this)}></WSelector>
 
                     <div className="blogeditor_shortbody_prefix">简介</div>
                     
