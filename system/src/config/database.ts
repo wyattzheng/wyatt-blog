@@ -19,11 +19,11 @@ export const DatabaseModule = TypeOrmModule.forRootAsync({
     imports:[ AppConfigModule ],
     useFactory:( configService : ConfigService, ) => ({
         type:"mysql",
-        host:configService.get("database.host"),
-        port:+configService.get("database.port"),
-        username:configService.get("database.username"),
-        password:configService.get("database.password"),
-        database:configService.get("database.dbname"),
+        host:configService.get("DATABASE.HOST"),
+        port:+configService.get("DATABASE.PORT"),
+        username:configService.get("DATABASE.USERNAME"),
+        password:configService.get("DATABASE.PASSWORD"),
+        database:configService.get("DATABASE.DBNAME"),
         entities:EntityList,
         synchronize:true,
         namingStrategy:new SimpleNamingStrategy()
