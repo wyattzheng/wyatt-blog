@@ -8,9 +8,12 @@ import "ace-builds/src-min-noconflict/mode-markdown"
 import "ace-builds/src-min-noconflict/theme-chrome"
 
 import "./editor.css";
-import { ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 import { WSelector } from "../../../components/selector";
 import { WContainer } from "../../../components/container";
+import { WButton } from "../../../components/button";
+
+
 
 export class EditBlogProgram extends Program{
     static program_name = "edit";
@@ -34,6 +37,8 @@ export class EditBlogProgram extends Program{
 
     private category_list:{key:string,value:string}[] = [];
 
+    private image_selector_ref = React.createRef<HTMLInputElement>();
+
     handleInput(data:string): void {
         if(data === "q"){
             this.eventBus.emit("CommandEvent","quit");
@@ -56,7 +61,7 @@ export class EditBlogProgram extends Program{
     }
     private async loadArticle(articleId : number){
 
-        const { data : article } = await this.network().get("/v1/article",{ params:{ article_id:articleId } });
+        const { data : article } = await this.network().get("/v1/article",{ params:{ article_id:articleId,render:"false" } });
         this.title_text = article.title;
         this.content_text = article.content;
         this.shortbody_text = article.shortbody;
@@ -82,11 +87,44 @@ export class EditBlogProgram extends Program{
     private handleCategoryChange(event:any){
         this.category_id = parseInt(event.currentTarget.value);
     }
-    private openEditor(){
+    private async handleFileChange(event:ChangeEvent<HTMLInputElement>){
+        const files = event.currentTarget.files!;
+        if(files.length <= 0 ){
+            this.printLn("你选择的文件为空, 无法上传");
+            return;
+        }
+        const file = files[0];
+
+        const form = new FormData();
+        form.append("file",file);
+        form.append("raw_file_name",file.name);
+
+        this.printLn(`开始上传... 文件名: ${file.name} 图片文件大小:${file.size}`);
+        const {data: upload_result} = await this.network(true).post("/v1/image",form,{headers:{"content-type":"multipart/form-data"}});
+        this.printLn("上传完毕,复制链接标记:");
+        
+        const mark = `![](${upload_result.new_file_name})`;
+        this.printLn(mark);
+        this.printLn("");
+
+        this.appendContent(mark);
+
+    }
+    private appendContent(text:string,newline:boolean = true){
+        this.content_text += text;
+        if(newline)
+            this.content_text += "\r\n";
+
+        this.renderEditor();
+    }
+
+    private renderEditor(){
         
         this.monitor.setDisplay(
             <WContainer>
                 <div className="blogeditor">
+                    <input type="file" ref={this.image_selector_ref} onChange={this.handleFileChange.bind(this)} className="blogeditor_image_file_selector"></input>
+
                     <div className="blogeditor_title_prefix">标题</div>
                 
                     <WInput className="blogeditor_title" placeholder="请输入文章标题" onChange={this.handleTitleInput.bind(this)} defaultValue={this.title_text}></WInput>
@@ -97,11 +135,12 @@ export class EditBlogProgram extends Program{
 
                     <div className="blogeditor_shortbody_prefix">简介</div>
                     
-                    <AceEditor minLines={10} maxLines={10} mode="markdown" theme="chrome" fontSize={16} value={this.shortbody_text} height="100%" width="100%" className="blogeditor" onChange={this.handleShortbodyInput.bind(this)} />
+                    <AceEditor minLines={10} maxLines={10} mode="markdown" theme="chrome" fontSize={16} value={this.shortbody_text} height="100%" width="100%" className="blogeditor_shortbody_ace" onChange={this.handleShortbodyInput.bind(this)} />
                     
                     <div className="blogeditor_content_prefix">正文</div>
                     
-                    <AceEditor minLines={60} maxLines={60} mode="markdown" theme="chrome" fontSize={16} value={this.content_text} height="100%" width="100%" className="blogeditor" onChange={this.handleEditorText.bind(this)} />
+                    <WButton onClick={()=>{this.image_selector_ref.current!.click()}} title="添加图片" className="blogeditor_img_upload_button" />
+                    <AceEditor minLines={60} maxLines={60} mode="markdown" theme="chrome" fontSize={16} value={this.content_text} height="100%" width="100%" className="blogeditor_content_ace" onChange={this.handleEditorText.bind(this)} />
 
                     
                 </div>
@@ -132,7 +171,7 @@ export class EditBlogProgram extends Program{
             this.printLn("文章编辑模式\r\n");
         }
 
-        this.printLn("[q]: 退出, [s]: 保存\r\n");
+        this.printLn("[q]: 退出, [s]: 保存 \r\n");
 
 
     }
@@ -140,7 +179,7 @@ export class EditBlogProgram extends Program{
  
         await this.initProgram(param_articleId);
 
-        this.openEditor();
+        this.renderEditor();
 
         while(true){
             const [cmd] = await this.eventBus.waitFor("CommandEvent");

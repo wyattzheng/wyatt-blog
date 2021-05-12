@@ -13,3 +13,12 @@ export function generateUuidToken(){
 export function getPageCount(all_count:number,page_count:number){
     return all_count / page_count == 0 ? all_count / page_count : Math.floor(all_count / page_count) + 1;
 }
+
+export function isWhatwgURL(url:string){
+    try{
+        new URL(url);
+        return true;
+    }catch(err){
+        return false;
+    }
+}

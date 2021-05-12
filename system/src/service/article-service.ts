@@ -1,29 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { Article,SimpifiedArticle } from '../domain/article';
-import { Category } from '../domain/category';
 import { ArticleManager } from '../manager/article-manager';
 import { CategoryManager } from '../manager/category-manager';
+import { ImageStoreManager } from '../manager/image-store-manager';
 import { UserManager } from '../manager/user-manager';
 import { getPageCount } from '../utils';
+import { remarkAllImageURL } from '../utils/remark-image-url';
+
 
 @Injectable()
 export class ArticleService {
     constructor(
         private articleManager : ArticleManager,
         private userManager : UserManager,
-        private categoryManager:CategoryManager
+        private categoryManager:CategoryManager,
+        private imageStoreManager : ImageStoreManager
     
     ){ }
     private async getSimpifiedArticle(article:Article):Promise<SimpifiedArticle>{
         const user = await this.userManager.getUserOrFail(article.userId,true);
         const categoryName = await this.categoryManager.getDisplayName(article.categoryId);
+        const rendered_shortbody = await this.getRenderedArticleContent(article.shortbody);
         return {
             articleId:article.id,
             title:article.title,
             categoryName,
-            shortbody:article.shortbody,
+            shortbody:rendered_shortbody.toString(),
             nickname:user.nickname,
             createdTime:article.createdAt
         }
@@ -71,9 +73,30 @@ export class ArticleService {
         const article = await this.articleManager.getArticleOrFail(articleId);
         return this.articleManager.removeArticle(article);
     }
+    async getArticle(articleId:number,render:boolean){
+        const article = await this.articleManager.getArticleOrFail(articleId);
+        const processed_content =
+            render ?
+                (await this.getRenderedArticleContent(article.content)).toString() :
+                article.content;
 
-    async getArticleOrFail(articleId:number){
-        return this.articleManager.getArticleOrFail(articleId);
+        return {
+            id:article.id,
+            title:article.title,
+            userId:article.userId,
+            categoryId : article.categoryId,
+            content : processed_content,
+            createdAt : article.createdAt,
+            updatedAt : article.updateAt,
+            shortbody: article.shortbody
+        }
+
+    }
+    private async getRenderedArticleContent(article_content:string){
+        return remarkAllImageURL(article_content,async (img_url)=>{
+            const {dataurl} =  await this.imageStoreManager.getImageDataURL(img_url);
+            return dataurl;
+        });
     }
 
 }

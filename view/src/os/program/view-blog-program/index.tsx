@@ -64,7 +64,7 @@ export class ViewBlogProgram extends Program{
     }
     protected async execute(cli:any,articleId:string): Promise<void> {
 
-        const { data:article } = await this.network().get("/v1/article",{params:{article_id:articleId}});
+        const { data:article } = await this.network().get("/v1/article",{params:{article_id:articleId,render:"true"}});
         const { data:userinfo } = await this.network().get("/v1/user",{params:{userid:article.userId}});
 
         const viewpage = parseInt(this.system.env.get("CURRENT_VIEW_PAGE") || "0");

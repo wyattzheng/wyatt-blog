@@ -36,7 +36,7 @@ export class RestExceptionsFilter implements ExceptionFilter{
         };
  
         
-        this.logger.log(`请求发生错误, 请求地址:${request.url}, 请求方式:${request.method}, 请求内容:${JSON.stringify(request.body)} 响应正文: ${JSON.stringify(body)}`);
+        this.logger.log(`请求发生错误, 请求地址:${request.url}, 请求方式:${request.method}, 请求内容:${JSON.stringify(request.body)} 响应正文: ${JSON.stringify(body)} ${exception.stack}`);
         
         response.status(exception.getStatus()).json(body);
 

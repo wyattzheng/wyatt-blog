@@ -9,11 +9,22 @@ import { ArticleService } from './service/article-service';
 import { ArticleManager } from './manager/article-manager';
 import { CategoryManager } from './manager/category-manager';
 import { CategoryService } from './service/category-service';
+import { ImageStoreManager } from './manager/image-store-manager';
+import { AppConfigModule } from "./config/app-config"
 
 @Module({
-  imports: [ DatabaseModule, RepositoryModule ],
+  imports: [ DatabaseModule, RepositoryModule, AppConfigModule ],
   controllers: [AppController],
-  providers: [UserService,ArticleService,CategoryService,CategoryManager,ArticleManager,UserManager,SessionManager],
+  providers: [
+    UserService,
+    ArticleService,
+    CategoryService,
+    CategoryManager,
+    ArticleManager,
+    UserManager,
+    SessionManager,
+    ImageStoreManager
+  ],
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer){

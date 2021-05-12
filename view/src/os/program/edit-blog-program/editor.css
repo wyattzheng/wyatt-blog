@@ -63,3 +63,15 @@
     box-sizing: border-box;
     
 }
+.blogeditor_image_file_selector{
+    display: none;
+}
+.blogeditor_img_upload_button{
+    width:100px;
+    height:50px;
+    font-size: 16px;
+}
+
+.blogeditor_content_ace{
+    margin-top: 20px;
+}
