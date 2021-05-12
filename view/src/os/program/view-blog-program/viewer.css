@@ -22,8 +22,8 @@
     margin-top: 15px;
     font-size:14px;
     display:flex;
-    letter-spacing:1px;
     color:#999;
+    font-family: monospace;
 }
 .articleviewer_content{
     font-family: Merriweather, Georgia, serif;
@@ -34,7 +34,6 @@
 .artcleviewer_metainfo_item{
     display:flex;
     align-items: center;
-    font-weight:100;
     margin-right:10px;
 }
 .articleviewer_container{
