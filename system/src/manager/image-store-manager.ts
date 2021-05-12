@@ -28,7 +28,7 @@ export class ImageStoreManager {
     async getImageDataURL(file_name:string){
         const path = this.getFilePath(file_name);
         const buffer = await FileSystem.readFile(path);
-        return {dataurl:`data:image/png;base64,${buffer.toString("base64")}`};
+        return `data:image/png;base64,${buffer.toString("base64")}`;
     }
 
 }

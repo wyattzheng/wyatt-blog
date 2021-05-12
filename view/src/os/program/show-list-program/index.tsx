@@ -1,9 +1,9 @@
 import moment from "moment";
-import ReactMarkdown from "react-markdown";
 import { Program } from "../program";
-import { highlightPlugin } from "../../../utils/highlight"
 import { WContainer } from "../../../components/container";
+
 import "github-markdown-css/github-markdown.css";
+import "highlight.js/styles/vs2015.css"
 import "./showlist.css";
 
 export interface BlogListPageProps{
@@ -60,11 +60,11 @@ export function BlogListPage(props : BlogListPageProps){
                     </div>
                 </div>
 
-                <ReactMarkdown className="articlelist_item_shortbody markdown-body" rehypePlugins={[highlightPlugin]} >
-                    {
-                        article.shortbody
-                    }
-                </ReactMarkdown>
+                <div className="articlelist_item_shortbody markdown-body" >
+                    
+                    <div dangerouslySetInnerHTML={{__html:article.shortbody}} />
+                    
+                </div>
                 
             </div>
         );

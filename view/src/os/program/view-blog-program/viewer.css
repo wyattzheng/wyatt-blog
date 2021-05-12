@@ -31,7 +31,7 @@
     color:#333 !important;
 }
 
-.artcleviewer_metainfo_item{
+.articleviewer_metainfo_item{
     display:flex;
     align-items: center;
     margin-right:10px;
@@ -40,7 +40,7 @@
     background:rgb(245,245,245);
     color:#000;
 }
-.artcleviewer_metainfo_item svg{
+.articleviewer_metainfo_item svg{
     margin:3px;
 }
 

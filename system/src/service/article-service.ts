@@ -5,8 +5,7 @@ import { CategoryManager } from '../manager/category-manager';
 import { ImageStoreManager } from '../manager/image-store-manager';
 import { UserManager } from '../manager/user-manager';
 import { getPageCount } from '../utils';
-import { remarkAllImageURL } from '../utils/remark-image-url';
-
+import { WCompileMarkdown } from "../markdown/index"
 
 @Injectable()
 export class ArticleService {
@@ -93,9 +92,8 @@ export class ArticleService {
 
     }
     private async getRenderedArticleContent(article_content:string){
-        return remarkAllImageURL(article_content,async (img_url)=>{
-            const {dataurl} =  await this.imageStoreManager.getImageDataURL(img_url);
-            return dataurl;
+        return WCompileMarkdown(article_content,(img_url:string)=>{
+            return this.imageStoreManager.getImageDataURL(img_url);
         });
     }
 
