@@ -6,3 +6,9 @@
     box-sizing: border-box;
     color:#FFF;
 }
+
+@media screen and (max-width:800px) {
+    .middlecontainer{
+        padding:10px;
+    }
+}

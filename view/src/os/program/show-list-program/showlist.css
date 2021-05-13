@@ -8,7 +8,7 @@
 .articlelist_item_title{
     font-family: 'Songti SC','Noto Serif SC',STZhongsong,STKaiti,KaiTi,Roboto,serif;
     font-size: 40px;
-    display: block;
+    display: inline-block;
     color: #ec6e6e;
     text-decoration: none;
     font-weight: 900;
@@ -24,25 +24,26 @@
     letter-spacing: 1px;
     text-align: center;
     color:#DDD;
-    margin-left:15px;
     margin-top:15px;
     font-size:13px;
 }
 .articlelist_item_top{
     padding:10px;
+    padding-left:30px;
+    padding-right:30px;
+    border-bottom: 1px solid #EEE;
+
 }
 .articlelist_item_header{
-    display:flex;
-    align-items:flex-start;
+    position: relative;
 }
 .articlelist_item_id{
-    position: relative;
+    position: absolute;
     color: #999;
-    left: -5px;
+    left: -25px;
     width: 25px;
 }
 .articlelist_item_shortbody{
-    border-top: 1px solid #EEE;
     margin: 20px;
     padding-top: 8px;
     padding-left: 10px;
@@ -85,10 +86,11 @@
     color:#FFF;
 }
 .articlelist_item_category{
-    padding-left:10px;
-    padding-right:10px;    
+    padding-left: 5px;
+    padding-right: 5px;
     color:#191970;
     font-weight: 900;
+    margin-right:5px;
 }
 .articlelist_item_createdTime{
     color:#576f3c;
