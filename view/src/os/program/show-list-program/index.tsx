@@ -2,7 +2,6 @@ import moment from "moment";
 import { Program } from "../program";
 import { WContainer } from "../../../components/container";
 
-import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/vs2015.css"
 import "./showlist.css";
 
@@ -32,40 +31,40 @@ export function BlogListPage(props : BlogListPageProps){
         list_content.push(
             <div key={key} className="articlelist_item">
                 
-                <div className="articlelist_item_header">
-                    <div className="articlelist_item_id">
-                        #
-                        {
-                            article.articleId
-                        }
-                    </div>
-                    <a className="articlelist_item_title" href={`#/wyattos/cli/view/${article.articleId}`}>
-                        {
-                            article.title
-                        }
-                    </a>
-                </div>
-                <div className="articlelist_item_metadata">
-                    <div className="articlelist_item_category">
-                        [
-                        {
-                            article.categoryName
-                        }
-                        ]
-                    </div>
-                    <div className="articlelist_item_createdTime">
-                        {
-                            moment(article.createdTime).format("YYYY年MM月DD日 HH时mm分")
-                        }
-                    </div>
-                </div>
 
-                <div className="articlelist_item_shortbody markdown-body" >
-                    
-                    <div dangerouslySetInnerHTML={{__html:article.shortbody}} />
-                    
+                <div className="articlelist_item_top">
+                    <div className="articlelist_item_header">
+                        <div className="articlelist_item_id">
+                            #
+                            {
+                                article.articleId
+                            }
+                        </div>
+                        <a className="articlelist_item_title" href={`#/wyattos/cli/view/${article.articleId}`}>
+                            {
+                                article.title
+                            }
+                        </a>
+                    </div>
+                    <div className="articlelist_item_metadata">
+                        <div className="articlelist_item_category">
+                            [
+                            {
+                                article.categoryName
+                            }
+                            ]
+                        </div>
+                        <div className="articlelist_item_createdTime">
+                            {
+                                moment(article.createdTime).format("YYYY年MM月DD日 HH时mm分")
+                            }
+                        </div>
+                    </div>
                 </div>
                 
+
+                <div className="articlelist_item_shortbody markdown-body markdown-short-body"  dangerouslySetInnerHTML={{__html:article.shortbody}} />
+                        
             </div>
         );
 
@@ -83,12 +82,14 @@ export function BlogListPage(props : BlogListPageProps){
         );
     }
     return (
-        <WContainer>
-            
-            <div className="articlelist">{ list_content }</div>
-            <div className="pageselector">{ page_selectors }</div>
+        <div className="articlelist_container">
+            <WContainer>
+                
+                <div className="articlelist">{ list_content }</div>
+                <div className="pageselector">{ page_selectors }</div>
 
-        </WContainer>
+            </WContainer>
+        </div>
     );
 }
 

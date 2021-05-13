@@ -3,8 +3,8 @@ import { RiTimeLine,RiAccountBoxLine } from "react-icons/ri"
 import Moment from "moment";
 import { WContainer } from "../../../components/container";
 
+import "../../../style/markdown.css";
 import "./viewer.css";
-import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/vs2015.css"
 
 export interface ArticleViewerProps{

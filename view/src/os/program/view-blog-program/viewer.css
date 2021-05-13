@@ -3,7 +3,7 @@
     font-size: 46px;
     font-family: Merriweather, Georgia, serif;
     font-weight: 900;
-    color:#000;
+    color:#ec6e6e;
 }
 .articleviewer_golist{
     font-size:16px;
@@ -13,7 +13,7 @@
     display: inline-block;
 }
 .articleviewer_split{
-    border-bottom: 1px solid #666;
+    border-bottom: 1px solid #a05050;
     margin-bottom:30px;
 }
 .articleviewer_metainfo{
@@ -22,7 +22,7 @@
     margin-top: 15px;
     font-size:14px;
     display:flex;
-    color:#999;
+    color:#a05050;
     font-family: monospace;
 }
 .articleviewer_content{
@@ -39,6 +39,8 @@
 .articleviewer_container{
     background:rgb(245,245,245);
     color:#000;
+    min-height:100%;
+    width:100%;
 }
 .articleviewer_metainfo_item svg{
     margin:3px;

@@ -17,11 +17,11 @@ export function RehypeTitleFigure() {
         if (!Array.isArray(tree.children))
             return tree;
         
+        const isImgElement = (el:any) => 'tagName' in el && el.tagName === 'img';
         visit(tree, { tagName: 'p' }, (el:any, index:number | null) => {
             if (!Array.isArray(tree?.children))
                 return;
                 
-            const isImgElement = (el:any) => 'tagName' in el && el.tagName === 'img';
             const images = el.children.filter(isImgElement).map(buildFigure);
             if (images.length === 0)
                 return;

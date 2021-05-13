@@ -1,0 +1,35 @@
+.markdown-body img{
+    box-shadow: 0 2px 0.5rem rgb(0 0 0 / 12%);
+    margin:0 auto;
+    display: block;
+    padding:5px;
+    background: #FFF;
+    max-width: 80%;
+    box-sizing: border-box;
+    max-height: 600px;
+}
+.markdown-body figure{
+    width:fit-content;
+    margin:0 auto;
+    padding-bottom:10px;
+    padding-top:10px;
+    
+}
+.markdown-body figcaption{
+    font-size:14px;
+    color:#666;
+    text-align: center;
+    padding-top:8px;
+    padding-bottom:5px;
+    
+}
+.markdown-short-body img{
+    margin:0;
+    max-height: 300px;
+}
+.markdown-short-body figure{
+    margin:0;
+}
+.markdown-short-body figcaption{
+    display: none;    
+}

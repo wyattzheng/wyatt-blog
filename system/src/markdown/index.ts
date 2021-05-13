@@ -19,7 +19,7 @@ export function WCompileMarkdown(markdown_text:string,url_transformer:(img_url:s
         .use(RemarkDirectiveImage)
         .use(Remark2Rehype)
         .use(RehypeImageURL,{url_transformer})
-//        .use(RehypeTitleFigure)
+        .use(RehypeTitleFigure)
         .use(RehypeHighlight)
         .use(RehypeStringify)
         .process(markdown_text)

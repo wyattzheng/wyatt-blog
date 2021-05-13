@@ -25,7 +25,6 @@ export function RehypeImageURL(options: RehypeImagerURLPluginOptions) : Unified.
                 parsed_image_urls.push(null);
                 continue;
             }
-
             let transformed = "";
             try{
                 transformed = await options.url_transformer(img_url);       
@@ -34,12 +33,11 @@ export function RehypeImageURL(options: RehypeImagerURLPluginOptions) : Unified.
         }
     }
     function parse_url_visitor(node:any){
-        for(const [,parsed_image_url] of parsed_image_urls.entries()){
-            if(parsed_image_url == null)
-                continue;
-
-            node.properties.src = parsed_image_url;
-        }
+        const parsed_image_url = parsed_image_urls.pop();
+        if(parsed_image_url == null)
+            return;
+        
+        node.properties.src = parsed_image_url;
     }
 
     function visit_image_node(tree:any,fn:(node:any)=>void){

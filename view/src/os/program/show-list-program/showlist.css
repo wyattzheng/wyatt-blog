@@ -1,15 +1,19 @@
+.articlelist_container{
+    background:#556;
+}
 .articlelist{
     padding-top:30px;
     min-height:600px;
 }
 .articlelist_item_title{
-    font-family: Merriweather, Georgia, serif;
+    font-family: 'Songti SC','Noto Serif SC',STZhongsong,STKaiti,KaiTi,Roboto,serif;
     font-size: 40px;
     display: block;
-    color: #ff8888;
+    color: #ec6e6e;
     text-decoration: none;
     font-weight: 900;
     box-sizing: border-box;
+    border-bottom: 1px solid #FFF;
 }
 .articlelist_item_title:hover{
     border-bottom: 1px dashed;
@@ -24,37 +28,40 @@
     margin-top:15px;
     font-size:13px;
 }
+.articlelist_item_top{
+    padding:10px;
+}
 .articlelist_item_header{
     display:flex;
     align-items:flex-start;
 }
 .articlelist_item_id{
     position: relative;
-    color: #CCC;
+    color: #999;
     left: -5px;
     width: 25px;
 }
 .articlelist_item_shortbody{
-    border-top: 1px solid #444;
-    margin-top: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 5px;
+    border-top: 1px solid #EEE;
+    margin: 20px;
     padding-top: 8px;
     padding-left: 10px;
     padding-right: 10px;
-    color:#CCC;
-    
+    color:#555;
 }
 .articlelist_item{
-    padding-top:20px;
-    padding-bottom:50px;
+    margin-top:20px;
+    margin-bottom:50px;
+    background:#FFF;
+    padding:10px;
+    box-shadow: 0 0 1px #eee;
+    border-radius: 3px;
 }
 .pageselector_item{
     width: 30px;
     height: 30px;
     line-height: 30px;
-    border-radius: 2px;
+    border-radius: 3px;
     text-align: center;
     font-weight: 900;
     border: 1px solid #555;
@@ -63,13 +70,13 @@
     text-decoration: none;
     color:inherit;
     margin:10px;
-    
+    background: #a0a0c5;
 }
 .pageselector_item_hover{
-    background: #666;
+    background: #a6a6ce;
 }
 .pageselector_item:hover{
-    background: #666;
+    background: #a6a6ce;
 }
 
 .pageselector{
@@ -80,11 +87,12 @@
 .articlelist_item_category{
     padding-left:10px;
     padding-right:10px;    
-    color:#89b1b1;
+    color:#191970;
     font-weight: 900;
 }
 .articlelist_item_createdTime{
-    color:#d8d8c3;
+    color:#576f3c;
+    font-weight: 900;
 }
 
 @media screen and (max-width:800px){
