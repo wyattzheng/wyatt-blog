@@ -84,6 +84,7 @@
     display:flex;
     justify-content: center;
     color:#FFF;
+    margin-top:30px;
 }
 .articlelist_item_category{
     padding-left: 5px;
@@ -103,5 +104,9 @@
     }
     .articlelist{
         padding-top:10px;
+    }
+    .articlelist_item{
+        margin-bottom:0px;
+        border-radius:0px;
     }
   }

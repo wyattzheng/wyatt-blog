@@ -85,4 +85,7 @@
   .display-box::-webkit-scrollbar{
     display: none;
   }
+  .terminal-toggle-button{
+    right:10px;
+  }
 }
