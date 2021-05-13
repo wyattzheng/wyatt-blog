@@ -2,17 +2,14 @@ import { EventEmitter2 } from "eventemitter2";
 import { CLIProgram } from "../cli-program";
 import { Program } from "../program";
 import { WInput } from "../../../components/input";
-
-import AceEditor from "react-ace";
-import "ace-builds/src-min-noconflict/mode-markdown"
-import "ace-builds/src-min-noconflict/theme-chrome"
-
-import "./editor.css";
-import React, { ChangeEvent } from "react";
 import { WSelector } from "../../../components/selector";
 import { WContainer } from "../../../components/container";
 import { WButton } from "../../../components/button";
 
+import React, { ChangeEvent, Suspense } from "react";
+import "./editor.css";
+
+const AceEditor = React.lazy(()=>import("react-ace"));
 
 
 export class EditBlogProgram extends Program{
@@ -135,13 +132,16 @@ export class EditBlogProgram extends Program{
 
                     <div className="blogeditor_shortbody_prefix">简介</div>
                     
-                    <AceEditor minLines={10} maxLines={10} mode="markdown" theme="chrome" fontSize={16} value={this.shortbody_text} height="100%" width="100%" className="blogeditor_shortbody_ace" onChange={this.handleShortbodyInput.bind(this)} />
-                    
+                    <Suspense fallback={<div>加载编辑器中...</div>}>
+                        <AceEditor minLines={10} maxLines={10} mode="markdown" theme="chrome" fontSize={16} value={this.shortbody_text} height="100%" width="100%" className="blogeditor_shortbody_ace" onChange={this.handleShortbodyInput.bind(this)} />
+                    </Suspense>
+
                     <div className="blogeditor_content_prefix">正文</div>
                     
                     <WButton onClick={()=>{this.image_selector_ref.current!.click()}} title="添加图片" className="blogeditor_img_upload_button" />
-                    <AceEditor minLines={60} maxLines={60} mode="markdown" theme="chrome" fontSize={16} value={this.content_text} height="100%" width="100%" className="blogeditor_content_ace" onChange={this.handleEditorText.bind(this)} />
-
+                    <Suspense fallback={<div>加载编辑器中...</div>}>
+                        <AceEditor minLines={60} maxLines={60} mode="markdown" theme="chrome" fontSize={16} value={this.content_text} height="100%" width="100%" className="blogeditor_content_ace" onChange={this.handleEditorText.bind(this)} />
+                    </Suspense>
                     
                 </div>
             </WContainer>

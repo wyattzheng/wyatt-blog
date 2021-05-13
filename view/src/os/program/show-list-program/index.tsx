@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { Program } from "../program";
 import { WContainer } from "../../../components/container";
 
@@ -56,7 +56,7 @@ export function BlogListPage(props : BlogListPageProps){
                         </div>
                         <div className="articlelist_item_createdTime">
                             {
-                                moment(article.createdTime).format("YYYY年MM月DD日 HH时mm分")
+                                dayjs(article.createdTime).format("YYYY年MM月DD日 HH时mm分")
                             }
                         </div>
                     </div>

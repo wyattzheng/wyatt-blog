@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { WContainer } from "../../components/container";
+import { wait } from "../../utils";
 import { IMonitor } from "../monitor";
 import { ISystem } from "../system";
 import { ITerminal } from "../terminal";
@@ -67,6 +68,10 @@ export abstract class Program implements IProgram{
     }
     private stop(){
         this.stdin.removeDataListener(this.inputListener);
+    }
+    protected async resetDisplay(){
+        this.monitor.setDisplay(<></>);
+        await wait(0);//让react获得tick并直接重新渲染
     }
     protected setDefaultDisplay(){
         this.monitor.setDisplay(<WContainer>当前未运行程序, 请在终端界面输入 help 获取帮助.</WContainer>)
