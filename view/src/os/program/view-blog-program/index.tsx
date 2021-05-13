@@ -23,25 +23,25 @@ export function ArticleViewer(props: ArticleViewerProps){
                     <a className="articleviewer_golist" href={`#/wyattos/cli/show/${props.viewpage}`}>
                         返回文章列表
                     </a>
-                    
-                    <div className="articleviewer_title">
-                        {props.title}
-                    </div>
-                    <div className="articleviewer_metainfo">
-                        
-                        <div className="articleviewer_metainfo_item">
-                            <RiAccountBoxLine/>
-                            {props.author}
+                    <div className="articleviewer_header">
+                        <div className="articleviewer_title">
+                            {props.title}
+                        </div>
+                        <div className="articleviewer_metainfo">
                             
-                        </div>
-                        <div className="articleviewer_metainfo_item">
-                            <RiTimeLine/>
-                            {dayjs(props.createdTime).format("YYYY-MM-DD HH:mm")}
-                        </div>
-                        
+                            <div className="articleviewer_metainfo_item">
+                                <RiAccountBoxLine/>
+                                {props.author}
+                                
+                            </div>
+                            <div className="articleviewer_metainfo_item">
+                                <RiTimeLine/>
+                                {dayjs(props.createdTime).format("YYYY-MM-DD HH:mm")}
+                            </div>
+                            
 
+                        </div>
                     </div>
-
                     <div className="articleviewer_split" />
                     
                     <div className="articleviewer_content markdown-body">

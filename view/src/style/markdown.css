@@ -1,3 +1,6 @@
+.markdown-body{
+    font-family: sans-serif;
+}
 .markdown-body img{
     box-shadow: 0 2px 0.5rem rgb(0 0 0 / 12%);
     margin:0 auto;
@@ -32,4 +35,41 @@
 }
 .markdown-short-body figcaption{
     display: none;    
+}
+.markdown-body blockquote{
+    padding: 1px 1rem;
+    border-left: 4px solid;
+    background-color: #FFF;
+    margin: 10px 0px;
+    border-left-color: #ff956f;
+    box-shadow: 0px 1px 1px #ccc
+}
+
+.markdown-body pre{
+    background-color:#000 !important;
+}
+
+.markdown-body hr{
+    border-color: #f8d2c4;
+}
+.markdown-body code{
+    background: black;
+    padding: 10px;
+    border-radius: 5px;
+    color: #FFF;
+    margin:3px;
+}
+.markdown-body h2{
+    font-weight: 100;
+    font-size: 32px;
+    color:brown;
+    border-bottom: 1px solid #DDD;
+    padding-bottom: 5px;
+    font-family: 'Noto Serif SC','sans-serif';
+}
+.markdown-body p{
+    line-height: 1.5rem;
+}
+.markdown-body h3{
+    color:darkblue;
 }
