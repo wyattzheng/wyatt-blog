@@ -56,7 +56,7 @@ export class BootProgram extends Program{
         this.printLn(`\r\nBootstrapping....\r\n`);
         
         this.setEnv("SERVER_URL",process.env["SERVER_URL"]);
-
+        this.setEnv("NOT_FIRST_VISIT","true");
         
         await wait(500);
         await this.printMotd();

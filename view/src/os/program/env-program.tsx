@@ -7,6 +7,7 @@ export class EnvProgram extends Program{
         "env <set|get> <key> <value>",
         "",
         "设置环境变量: env set ENVIRONMENT VALUE",
+        "删除环境变量: env set ENVIRONMENT",
         "获取全部环境变量: env"
     ].join("\r\n");
 
@@ -30,10 +31,14 @@ export class EnvProgram extends Program{
             
             this.printLn(this.system.env.get(key!)!);
         }else if(action === "set"){
-            if(!key || !value)
-                throw new Error(`请提供环境变量的 key 与 value`);
-        
-            this.system.env.set(key,value);
+            if(!key)
+                throw new Error(`请提供环境变量的 key`);
+
+            if(value)        
+                this.system.env.set(key,value);
+            else
+                this.system.env.remove(key);
+                
         }else{
             this.printLn(this.getAllEnvs());
         }

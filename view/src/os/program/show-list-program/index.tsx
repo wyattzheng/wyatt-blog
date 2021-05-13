@@ -101,11 +101,17 @@ export class ShowListProgram extends Program{
 
     handleInput(data:string): void { }
 
-    protected async execute(cli:any,page:number = 0): Promise<void> {
+    protected async execute(cli:any,page?:number): Promise<void> {
+        if(!page)
+            page = parseInt(this.system.env.get("CURRENT_VIEW_PAGE") || "0");
+
         const { data: res } = await this.network().get("/v1/article/list",{params:{page,count:10}});
 
         this.system.env.set("CURRENT_VIEW_PAGE",page.toString());
         this.monitor.setDisplay(<BlogListPage list={res} />);
+
+        this.system.env.has("NOT_FIRST_VISIT") && this.terminal.setVisible(false);
+
     }
     
 }

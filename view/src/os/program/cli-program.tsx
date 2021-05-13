@@ -61,6 +61,8 @@ export class CLIProgram extends Program{
     private eventBus = new EventEmitter2();
     private nextLine = false;
     private isFirstRun = true;
+    private initCommands:string[] = [];
+    private defaultCommands:string[] = [];
 
     private keyinputBuffer : string[] = [];
     private lineBuf = "";
@@ -123,12 +125,12 @@ export class CLIProgram extends Program{
         this.inputClearLine();
         this.inputCommandText(historyText,false);
     }
-private getLastWord(){
-    if(this.lineBuf.length < 1)
-    return ""
+    private getLastWord(){
+        if(this.lineBuf.length < 1)
+        return ""
 
-    return this.lineBuf.substr(-1,1)
-}
+        return this.lineBuf.substr(-1,1)
+    }
     private inputClearLine(){
         for(let i=0;i<this.lineBuf.length;i++){
             this.stdout.writeData("\b \b");
@@ -140,13 +142,13 @@ private getLastWord(){
         return this.isFirstRun === false;
     }
     public inputCommandText(cmd_text:string,nextLine:boolean = true){
-        this.terminal.setVisible(true);
 
         this.keyinputBuffer.push(...cmd_text.split(""));
         if(nextLine === true){
             this.keyinputBuffer.push("\r");
             this.consumeLine();
         }
+
     }
     public async slowInputCommandText(cmd_text:string,typing_ms:number = 20){
         this.terminal.setVisible(true);
@@ -158,6 +160,9 @@ private getLastWord(){
         }
         this.keyinputBuffer.push("\r");
         this.consumeLine();
+
+        this.system.env.has("NOT_FIRST_VISIT") && this.terminal.setVisible(false);
+
     }
     public getProgramContainer(){
         if(!this.container)
@@ -168,15 +173,17 @@ private getLastWord(){
      * CLI Program 是一个 forever loop
      * 常驻执行的程序
      */
-    protected async execute(container : IProgramContainer,initCommands:string[] = []): Promise<void> {
+    protected async execute(container : IProgramContainer,initCommands:string[] = [],defaultCommands:string[] = []): Promise<void> {
         this.container = container;
-            
+        this.initCommands = initCommands;
+        this.defaultCommands = defaultCommands;
         while(!this.exited){
             
             this.nextLine = false;
 
             this.printPrefix();
-            this.tryToInit(initCommands);
+            this.tryToInit();
+            
             this.consumeLine();
 
             const line = await this.waitForLine();
@@ -190,20 +197,26 @@ private getLastWord(){
                 this.printLn(err.message);
             }
 
-
         }
     }
-    
-    private async tryToInit(initCommands:string[]){
+    private tryToInit(){
         if(this.isFirstRun === false)
             return;
 
-        for(const cmd of initCommands){
-            this.inputCommandText(cmd);
-        }
+        this.runInitCommands();
+        this.runDefaultCommands();
 
         this.isFirstRun = false;
-
+    }
+    runInitCommands(){
+        for(const cmd of this.initCommands){
+            this.inputCommandText(cmd);
+        }
+    }
+    runDefaultCommands(){
+        for(const cmd of this.defaultCommands){
+            this.inputCommandText(cmd);
+        }
     }
     private async runCommand(cmd :string,args:string[]){
         if(cmd === "exit"){

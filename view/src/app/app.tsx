@@ -42,17 +42,23 @@ export function useAutoTerminalWidth(
 function useHashTerminalInput(cli_program : React.MutableRefObject<CLIProgram | undefined>){
   
   useEffect(()=>{
-    const listener = async (event : any)=>{
+    const popstatelistener = async ()=>{
+
+      const hash = window.location.hash;
       const cli = cli_program.current;
-      const command = parseHashCommand(window.location.hash);
+
+      if(hash === ""){
+        cli!.runDefaultCommands();
+        return;
+      }
+      const command = parseHashCommand(hash);
       if(cli && cli.isLoaded() && command){
-        window.location.hash = "";
         await cli.slowInputCommandText(command);
       }
     };
-    window.addEventListener("hashchange",listener)
-    return ()=>window.removeEventListener("hashchange",listener);
-  })
+    window.addEventListener("popstate",popstatelistener);
+    return ()=>window.removeEventListener("popstate",popstatelistener);
+  },[])
 //  cli.inputCommandText();
 
 }
@@ -89,7 +95,7 @@ export function App() {
     initProgramContainer(container.current!);
 
     cli_program.current = container.current!.getNewProgram("cli") as CLIProgram;
-    cli_program.current.run(container.current!,["bootstrap","show"]);
+    cli_program.current.run(container.current!,["bootstrap"],["show"]);
 
   },[container]);
   
