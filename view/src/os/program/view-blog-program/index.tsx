@@ -18,7 +18,7 @@ export function ArticleViewer(props: ArticleViewerProps){
     
     return (
         <div className="articleviewer_container">
-            <WContainer>
+            <WContainer className="articleviewer_middlearea">
                 <div className="articleviewer">
                     <a className="articleviewer_golist" href={`#/wyattos/cli/show/${props.viewpage}`}>
                         返回文章列表

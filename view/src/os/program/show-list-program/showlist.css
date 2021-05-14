@@ -1,5 +1,6 @@
 .articlelist_container{
     background:#556;
+    min-height:100%
 }
 .articlelist{
     padding-top:30px;
