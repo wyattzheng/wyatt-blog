@@ -62,6 +62,7 @@ export class EditBlogProgram extends Program{
         this.title_text = article.title;
         this.content_text = article.content;
         this.shortbody_text = article.shortbody;
+        this.category_id = article.categoryId;
     }
     private async loadCategories(){
         const { data : list } = await this.network().get("/v1/category/list");
