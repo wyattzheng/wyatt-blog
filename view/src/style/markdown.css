@@ -27,16 +27,6 @@
     padding-bottom:5px;
     
 }
-.markdown-short-body img{
-    margin:0;
-    max-height: 300px;
-}
-.markdown-short-body figure{
-    margin:0;
-}
-.markdown-short-body figcaption{
-    display: none;    
-}
 .markdown-body blockquote{
     padding: 1px 1rem;
     background-color: rgb(250,245,245);
@@ -76,4 +66,19 @@
 }
 .markdown-body strong{
     color:#222;
+}
+
+
+.markdown-short-body img{
+    margin:0;
+    max-height: 300px;
+}
+.markdown-short-body figure{
+    margin:0;
+}
+.markdown-short-body figcaption{
+    display: none;    
+}
+.markdown-short-body strong{
+    color:#555;
 }
