@@ -1,5 +1,6 @@
 .markdown-body{
     font-family: sans-serif;
+    color:rgb(51,51,51);
 }
 .markdown-body img{
     box-shadow: 0 2px 0.5rem rgb(0 0 0 / 12%);
@@ -48,7 +49,7 @@
 }
 
 .markdown-body hr{
-    border-color: #f8d2c4;
+    border-color: #FFF;
 }
 .markdown-body code{
     background: black;
@@ -59,12 +60,20 @@
 }
 .markdown-body h2{
     font-weight: 100;
-    font-size: 28px;
-    color:#de6969;
-    border-bottom: 1px solid #DDD;
-    padding-bottom: 5px;
+    font-size: 35px;
+    color:#000;
+    border-bottom: 1px solid #EEE;
+    margin-top: 34px;
+    margin-bottom: 16px;
     font-family: 'sans-serif';
+}
+.markdown-body h3{
+    color:#222;
+    margin-bottom: 12px;
 }
 .markdown-body p{
     line-height: 1.5rem;
+}
+.markdown-body strong{
+    color:#222;
 }
