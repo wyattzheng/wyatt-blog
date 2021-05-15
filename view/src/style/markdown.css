@@ -82,3 +82,9 @@
 .markdown-short-body strong{
     color:#555;
 }
+
+@media screen and (max-width:800px) {
+    .markdown-body h2{
+        font-size: 28px;
+    }
+}
