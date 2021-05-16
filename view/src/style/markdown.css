@@ -35,15 +35,20 @@
 }
 
 .markdown-body pre{
-    background-color:#000 !important;
+    background-color:#222;
+    border-radius: 3px;
+    padding: 8px;
 }
 
 .markdown-body hr{
-    border-color: #FFF;
+    height: 1px;
+    border: 0;
+    background: #EEE;
+    margin: 20px 0px;
 }
 .markdown-body code{
-    background: black;
-    padding: 10px;
+    background: #222;
+    padding: 3px 6px;
     border-radius: 5px;
     color: #FFF;
     margin:3px;

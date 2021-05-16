@@ -74,9 +74,6 @@
     margin:10px;
     background: #a0a0c5;
 }
-.pageselector_item_hover{
-    background: #a6a6ce;
-}
 .pageselector_item:hover{
     background: #a6a6ce;
 }
@@ -110,4 +107,40 @@
         margin-bottom:0px;
         border-radius:0px;
     }
+    .articlelist_middlearea{
+        padding: 0px;
+    }
+    .articlelist_container{
+        background: #FFF;
+    }
+    .pageselector_item:hover{
+        background: #EEE;
+    }
+    .pageselector{
+        color:#555;
+    }
+    .pageselector_item{
+        border:0;
+        background: #DDD;
+    }
+    .articlelist_item_top{
+        padding-left:10px;
+        padding-right:10px;
+    }
+    .articlelist_item_shortbody{
+        padding-top: 3px;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-top: 0;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+    .articlelist_item_category{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .articlelist_item_id{
+        display:none;
+    }
+    
   }

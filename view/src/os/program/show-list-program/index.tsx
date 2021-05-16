@@ -83,7 +83,7 @@ export function BlogListPage(props : BlogListPageProps){
     }
     return (
         <div className="articlelist_container">
-            <WContainer>
+            <WContainer className="articlelist_middlearea">
                 
                 <div className="articlelist">{ list_content }</div>
                 <div className="pageselector">{ page_selectors }</div>
