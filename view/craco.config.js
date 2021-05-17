@@ -33,6 +33,12 @@ module.exports = {
         ],
         configure:(webpackConfig, { env, paths })=>{
             webpackConfig.devtool = false;
+            webpackConfig.externals = {
+                "react":"React",
+                "react-dom":"ReactDOM",
+                "xterm":"xterm",
+                "eventemitter2":"eventemitter2"
+            }
             return webpackConfig;
         }
     }
