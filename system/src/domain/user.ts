@@ -33,10 +33,10 @@ export class User{
     @Column({type:"varchar",length:64})
     nickname : string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({type:"timestamp"})
     createdAt : Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({type:"timestamp"})
     deletedAt : Date;
 
 }

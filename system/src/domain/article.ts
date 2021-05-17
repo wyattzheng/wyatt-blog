@@ -30,12 +30,12 @@ export class Article{
     @Column("text")
     content : string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({type:"timestamp"})
     createdAt : Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({type:"timestamp"})
     deletedAt : Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({type:"timestamp"})
     updateAt : Date;
 }

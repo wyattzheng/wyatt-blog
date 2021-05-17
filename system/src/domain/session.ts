@@ -15,9 +15,9 @@ export class Session{
     @Column({type:"varchar",length:64})
     token : string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({type:"timestamp"})
     createdAt : Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({type:"timestamp"})
     deletedAt : Date;
 }

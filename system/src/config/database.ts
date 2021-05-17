@@ -24,6 +24,7 @@ export const DatabaseModule = TypeOrmModule.forRootAsync({
         username:configService.get("DATABASE.USERNAME"),
         password:configService.get("DATABASE.PASSWORD"),
         database:configService.get("DATABASE.DBNAME"),
+        timezone:configService.get("DATABASE.TIMEZONE"),
         entities:EntityList,
         synchronize:true,
         namingStrategy:new SimpleNamingStrategy()

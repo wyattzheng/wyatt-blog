@@ -14,9 +14,9 @@ export class Category{
     @Column("text")
     description:string
 
-    @CreateDateColumn()
+    @CreateDateColumn({type:"timestamp"})
     createdAt : Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({type:"timestamp"})
     deletedAt : Date;
 }
