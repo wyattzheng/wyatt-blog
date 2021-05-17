@@ -1,14 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export interface SimpifiedArticle{
-    articleId:number,
-    categoryName:string,
-    title:string,
-    shortbody:string,
-    nickname:string,
-    createdTime:Date
-}
-
 
 @Entity()
 export class Article{

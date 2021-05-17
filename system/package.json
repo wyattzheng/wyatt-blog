@@ -50,7 +50,8 @@
     "unified": "^9.2.1",
     "unist-util-visit": "2.0.0",
     "unist-util-visit-parents": "3.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "words-count": "^2.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",

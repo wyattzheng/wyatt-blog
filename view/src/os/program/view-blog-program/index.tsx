@@ -73,7 +73,7 @@ export class ViewBlogProgram extends Program{
         const viewpage = parseInt(this.system.env.get("CURRENT_VIEW_PAGE") || "0");
 
         await this.resetDisplay();
-        this.monitor.setDisplay(<ArticleViewer createdTime={article.createdAt} viewpage={viewpage} author={userinfo.nickname} title={article.title} content={article.content} />);
+        this.monitor.setDisplay(<ArticleViewer createdTime={article.createdAt} viewpage={viewpage} author={userinfo.nickname} title={article.title} content={article.rendered_content} />);
 
         this.terminal.setVisible(false);
     }

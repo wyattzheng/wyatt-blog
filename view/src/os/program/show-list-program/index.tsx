@@ -2,6 +2,9 @@ import dayjs from "dayjs";
 import { Program } from "../program";
 import { WContainer } from "../../../components/container";
 
+import { RiBookmark2Line,RiTimerLine,RiCalendar2Line } from "react-icons/ri";
+
+
 import "highlight.js/styles/vs2015.css"
 import "./showlist.css";
 
@@ -16,7 +19,8 @@ export interface BlogListPageProps{
             title:string,
             nickname:string,
             shortbody:string,
-            createdTime:string
+            createdTime:string,
+            mins_read:number
         }[]
     };
 }
@@ -35,29 +39,25 @@ export function BlogListPage(props : BlogListPageProps){
                 <div className="articlelist_item_top">
                     <div className="articlelist_item_header">
                         <div className="articlelist_item_id">
-                            #
-                            {
-                                article.articleId
-                            }
+                            #{article.articleId}
                         </div>
                         <a className="articlelist_item_title" href={`#/wyattos/cli/view/${article.articleId}`}>
-                            {
-                                article.title
-                            }
+                            {article.title}
                         </a>
                     </div>
                     <div className="articlelist_item_metadata">
-                        <div className="articlelist_item_category">
-                            [
-                            {
-                                article.categoryName
-                            }
-                            ]
+                        <div className="articlelist_item_category articlelist_item_icon_holder">
+                            <RiBookmark2Line className="articlelist_item_icon" />
+                            {article.categoryName}
                         </div>
-                        <div className="articlelist_item_createdTime">
-                            {
-                                dayjs(article.createdTime).format("YYYY年MM月DD日 HH时mm分")
-                            }
+
+                        <div className="articlelist_item_createdTime articlelist_item_icon_holder">
+                            <RiCalendar2Line className="articlelist_item_icon" />
+                            {dayjs(article.createdTime).format("YYYY年MM月DD日")}
+                        </div>
+                        <div className="articlelist_item_timecost articlelist_item_icon_holder">
+                            <RiTimerLine className="articlelist_item_icon" />
+                            阅读: {Math.max(1,article.mins_read).toFixed(0)}分钟
                         </div>
                     </div>
                 </div>

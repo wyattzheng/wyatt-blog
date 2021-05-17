@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { Article,SimpifiedArticle } from '../domain/article';
+import { Article } from '../domain/article';
 import { ArticleManager } from '../manager/article-manager';
 import { CategoryManager } from '../manager/category-manager';
 import { ImageStoreManager } from '../manager/image-store-manager';
 import { UserManager } from '../manager/user-manager';
-import { getPageCount } from '../utils';
+import { getMinutesRead, getPageCount } from '../utils';
 import { WCompileMarkdown } from "../markdown/index"
+
+export interface SimpifiedArticle{
+    articleId:number,
+    categoryName:string,
+    title:string,
+    shortbody:string,
+    nickname:string,
+    mins_read:number,
+    createdTime:Date
+}
 
 @Injectable()
 export class ArticleService {
@@ -25,6 +35,7 @@ export class ArticleService {
             title:article.title,
             categoryName,
             shortbody:rendered_shortbody.toString(),
+            mins_read:getMinutesRead(article.content),
             nickname:user.nickname,
             createdTime:article.createdAt
         }
@@ -74,21 +85,22 @@ export class ArticleService {
     }
     async getArticle(articleId:number,render:boolean){
         const article = await this.articleManager.getArticleOrFail(articleId);
-        const processed_content =
-            render ?
-                (await this.getRenderedArticleContent(article.content)).toString() :
-                article.content;
 
-        return {
+        const rendered_content = await this.getRenderedArticleContent(article.content);
+
+        const result = {
             id:article.id,
             title:article.title,
             userId:article.userId,
             categoryId : article.categoryId,
-            content : processed_content,
+            content : article.content,
+            rendered_content : rendered_content,
+            mins_read:getMinutesRead(article.content),
             createdAt : article.createdAt,
             updatedAt : article.updateAt,
             shortbody: article.shortbody
-        }
+        };
+        return result;
 
     }
     private async getRenderedArticleContent(article_content:string){

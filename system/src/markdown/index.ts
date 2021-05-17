@@ -25,5 +25,8 @@ export function WCompileMarkdown(markdown_text:string,url_transformer:(img_url:s
         .use(RehypeHighlight)
         .use(RehypeStringify)
         .process(markdown_text)
+        .then((result)=>{
+            return result.toString();
+        })
 
 }
