@@ -2,6 +2,7 @@
 .articleviewer_middlearea{
     background: #FFF;
     min-height: 100%;
+    max-width: 1000px;
 }
 .articleviewer_title{
     font-size: 46px;
