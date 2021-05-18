@@ -68,6 +68,7 @@
 }
 .markdown-body p{
     line-height: 1.5rem;
+    overflow: auto;
 }
 .markdown-body strong{
     color:#222;
