@@ -78,6 +78,12 @@
     padding:10px;
     opacity:0.93;
     box-shadow: 1px 3px 5px #333;
+    transition: all 0.2s;
+}
+.articlelist_item:hover{
+    opacity: 1;
+    box-shadow: 1px 3px 15px #555;
+
 }
 .pageselector_item{
     width: 30px;

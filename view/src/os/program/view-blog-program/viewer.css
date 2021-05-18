@@ -45,6 +45,7 @@
     color:#000;
     height:100%;
     width:100%;
+    overflow-y:auto;
 }
 .articleviewer_metainfo_item svg{
     margin:3px;
