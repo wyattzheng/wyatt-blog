@@ -39,24 +39,31 @@ export function useAutoTerminalWidth(
   },[]);
 }
 
+function getCurrentHashCommand(){
+  const hash = window.location.hash;
+  if(hash === "")
+    return;
+  return parseHashCommand(hash);
+}
+
 function useHashTerminalInput(cli_program : React.MutableRefObject<CLIProgram | undefined>){
   
   useEffect(()=>{
     const popstatelistener = async ()=>{
 
-      const hash = window.location.hash;
       const cli = cli_program.current;
+      const command = getCurrentHashCommand();
 
-      if(hash === ""){
+      if(!command){
         cli!.runDefaultCommands();
         return;
       }
-      const command = parseHashCommand(hash);
-      if(cli && cli.isLoaded() && command){
+      if(cli && cli.isLoaded()){
         await cli.slowInputCommandText(command);
       }
     };
     window.addEventListener("popstate",popstatelistener);
+
     return ()=>window.removeEventListener("popstate",popstatelistener);
   },[])
 //  cli.inputCommandText();
@@ -94,8 +101,20 @@ export function App() {
 
     initProgramContainer(container.current!);
 
+    const default_hash_command = getCurrentHashCommand();
+    
+    const init_commands = [];
+    const default_commands = [];
+
+    if(default_hash_command){
+      default_commands.push(default_hash_command);
+    }else{
+      init_commands.push("bootstrap");
+      default_commands.push("show");
+    }
+
     cli_program.current = container.current!.getNewProgram("cli") as CLIProgram;
-    cli_program.current.run(container.current!,["bootstrap"],["show"]);
+    cli_program.current.run(container.current!,init_commands,default_commands);
 
   },[container]);
   
