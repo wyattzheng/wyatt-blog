@@ -33,7 +33,7 @@ export function RehypeImageURL(options: RehypeImagerURLPluginOptions) : Unified.
         }
     }
     function parse_url_visitor(node:any){
-        const parsed_image_url = parsed_image_urls.pop();
+        const parsed_image_url = parsed_image_urls.shift();
         if(parsed_image_url == null)
             return;
         
