@@ -119,7 +119,9 @@ export class EditBlogProgram extends Program{
     private renderEditor(){
         
         this.monitor.setDisplay(
-            <WContainer>
+
+        <div className="blogeditor_container">
+            <WContainer className="blogeditor_middlearea">
                 <div className="blogeditor">
                     <input type="file" ref={this.image_selector_ref} onChange={this.handleFileChange.bind(this)} className="blogeditor_image_file_selector"></input>
 
@@ -146,6 +148,7 @@ export class EditBlogProgram extends Program{
                     
                 </div>
             </WContainer>
+        </div>
         );
     }
     private async initProgram(param_articleId?:string){

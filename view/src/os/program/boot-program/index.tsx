@@ -27,15 +27,19 @@ const MOTD_MIN =[
     ];
 
 export function WelcomePage(){
-    return (<WContainer className="profile_container">        
-        <div className="profile">
-            <div className="profile_avatar">
-                <img className="profile_avatar_img" src="/avatar.jpg" alt="wyatt" />
-            </div>
-            <div className="profile_hello"> Hi, I'm Wyatt </div>
-            <div className="profile_welcome"> Welcome to my blog 🧡 </div>
+    return (
+        <div className="profile_container">
+            <WContainer className="profile_middlearea">        
+                <div className="profile">
+                    <div className="profile_avatar">
+                        <img className="profile_avatar_img" src="/avatar.jpg" alt="wyatt" />
+                    </div>
+                    <div className="profile_hello"> Hi, I'm Wyatt </div>
+                    <div className="profile_welcome"> Welcome to my blog 🧡 </div>
+                </div>
+            </WContainer>
         </div>
-    </WContainer>);
+    );
 }
 export class BootProgram extends Program{
     static program_name = "bootstrap";

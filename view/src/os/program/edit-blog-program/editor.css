@@ -75,3 +75,10 @@
 .blogeditor_content_ace{
     margin-top: 20px;
 }
+.blogeditor_container{
+    height:100%;
+    overflow-y:auto;
+}
+.blogeditor_middlearea{
+    max-width:1000px;
+}

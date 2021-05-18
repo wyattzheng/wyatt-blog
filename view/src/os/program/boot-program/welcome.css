@@ -31,6 +31,9 @@
     margin-top:20px;
 }
 .profile_container{
+    height:100%;
+}
+.profile_middlearea{
     display: flex;
     flex-direction: column;
     align-items: center;
