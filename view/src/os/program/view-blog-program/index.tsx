@@ -1,5 +1,5 @@
 import { Program } from "../program";
-import { RiTimeLine,RiAccountBoxLine } from "react-icons/ri"
+import { RiCalendar2Line,RiAccountBoxLine } from "react-icons/ri"
 import dayjs from "dayjs";
 import { WContainer } from "../../../components/container";
 
@@ -35,8 +35,8 @@ export function ArticleViewer(props: ArticleViewerProps){
                                 
                             </div>
                             <div className="articleviewer_metainfo_item">
-                                <RiTimeLine/>
-                                {dayjs(props.createdTime).format("YYYY-MM-DD HH:mm")}
+                                <RiCalendar2Line/>
+                                {dayjs(props.createdTime).format("YYYY年MM月DD日")}
                             </div>
                             
 

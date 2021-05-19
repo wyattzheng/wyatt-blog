@@ -24,11 +24,11 @@
 .articleviewer_metainfo{
     height: 30px;
     line-height: 30px;
-    margin-top: 15px;
+    margin-top: 13px;
     font-size:14px;
     display:flex;
-    color:#a05050;
-    font-family: monospace;
+    color:#8e6969;
+
 }
 .articleviewer_content{
     padding:10px;
@@ -60,5 +60,8 @@
 @media screen and (max-width:800px){
     .articleviewer_title{
         font-size: 30px;
+    }
+    .articleviewer_metainfo{
+        font-size:12px;
     }
   }
