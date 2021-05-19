@@ -4,6 +4,7 @@ import { RehypeHighlight } from './rehype-highlight';
 import { RemarkDirectiveImage } from "./remark-directive-image";
 
 import * as RemarkParse from "remark-parse";
+import * as RemarkGfm from "remark-gfm";
 import * as Remark2Rehype from "remark-rehype";
 import * as RemarkJoinCJKLines from "remark-join-cjk-lines";
 import * as Unified from "unified";
@@ -17,6 +18,7 @@ export function WCompileMarkdown(markdown_text:string,url_transformer:(img_url:s
     return Unified()
         .use(RemarkParse)
         .use(RemarkJoinCJKLines)
+        .use(RemarkGfm)
         .use(RemarkDirective)
         .use(RemarkDirectiveImage)
         .use(Remark2Rehype)

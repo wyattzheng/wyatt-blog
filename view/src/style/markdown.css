@@ -4,6 +4,10 @@
 }
 .markdown-body a{
     text-decoration: none;
+    color:#0f64fc;
+}
+.markdown-body a:active{
+    color:#0f64fc;
 }
 .markdown-body img{
     box-shadow: 0 2px 0.5rem rgb(0 0 0 / 12%);
@@ -91,6 +95,51 @@
 .markdown-short-body strong{
     color:#555;
 }
+.markdown-body table{
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+.markdown-body ul {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.markdown-body li {
+    word-wrap: break-all;
+    list-style-type:none;
+    padding:5px;
+    display: flex;
+    align-items: center;
+}
+.markdown-body [type=checkbox] {
+    box-sizing: border-box;
+    padding: 0;
+    width:20px;
+    height:20px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+  
+
+.markdown-body table th {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+
+.markdown-body table td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+
 
 @media screen and (max-width:800px) {
     .markdown-body h2{
