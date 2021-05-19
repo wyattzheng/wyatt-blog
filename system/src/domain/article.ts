@@ -21,6 +21,9 @@ export class Article{
     @Column("text")
     content : string;
 
+    @Column("boolean")
+    privacy : boolean;
+
     @CreateDateColumn({type:"timestamp"})
     createdAt : Date;
 

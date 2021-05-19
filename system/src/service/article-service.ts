@@ -41,8 +41,8 @@ export class ArticleService {
         }
     }
 
-    async getLatestList(page:number = 0,page_count:number = 10){
-        const [articles,count] = await this.articleManager.getLatestList(page * page_count,page_count);
+    async getLatestList(page:number = 0,page_count:number = 10,privacy : boolean = false){
+        const [articles,count] = await this.articleManager.getLatestList(page * page_count,page_count, privacy);
 
         const pages = getPageCount(count,page_count);
 
@@ -59,22 +59,24 @@ export class ArticleService {
         };
 
     }
-    async createArticle(userId:number,title:string,shortbody:string,content:string,categoryId:number){
+    async createArticle(userId:number,title:string,shortbody:string,content:string,categoryId:number,privacy:boolean){
         const article = new Article();
         article.userId = userId;
         article.title = title;
         article.shortbody = shortbody;
         article.content = content;
         article.categoryId = categoryId;
+        article.privacy = privacy;
 
         return this.articleManager.saveArticle(article);
     }
-    async modifyArticle(articleId:number,title:string,shortbody:string,content:string,categoryId:number){
+    async modifyArticle(articleId:number,title:string,shortbody:string,content:string,categoryId:number,privacy:boolean){
         const article = await this.articleManager.getArticleOrFail(articleId);
         article.title = title;
         article.shortbody = shortbody;
         article.content = content;
         article.categoryId = categoryId;
+        article.privacy = privacy;
 
         return this.articleManager.saveArticle(article);
     }
@@ -94,6 +96,7 @@ export class ArticleService {
             userId:article.userId,
             categoryId : article.categoryId,
             content : article.content,
+            privacy : article.privacy,
             rendered_content : rendered_content,
             mins_read:getMinutesRead(article.content),
             createdAt : article.createdAt,

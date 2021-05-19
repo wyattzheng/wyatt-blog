@@ -30,6 +30,7 @@ export class EditBlogProgram extends Program{
     private title_text:string = "";
     private shortbody_text:string = "";
     private content_text:string = "";
+    private privacy:boolean = false;
     private category_id:number = -1;
 
     private category_list:{key:string,value:string}[] = [];
@@ -63,6 +64,7 @@ export class EditBlogProgram extends Program{
         this.content_text = article.content;
         this.shortbody_text = article.shortbody;
         this.category_id = article.categoryId;
+        this.privacy  = article.privacy;
     }
     private async loadCategories(){
         const { data : list } = await this.network().get("/v1/category/list");
@@ -115,7 +117,10 @@ export class EditBlogProgram extends Program{
 
         this.renderEditor();
     }
+    private handlePrivacyChange(event:ChangeEvent<HTMLInputElement>){
+        this.privacy = event.currentTarget.value === "true";
 
+    }
     private renderEditor(){
         
         this.monitor.setDisplay(
@@ -125,27 +130,33 @@ export class EditBlogProgram extends Program{
                 <div className="blogeditor">
                     <input type="file" ref={this.image_selector_ref} onChange={this.handleFileChange.bind(this)} className="blogeditor_image_file_selector"></input>
 
-                    <div className="blogeditor_title_prefix">标题</div>
+                    <div className="blogeditor_prefix">标题</div>
                 
-                    <WInput className="blogeditor_title" placeholder="请输入文章标题" onChange={this.handleTitleInput.bind(this)} defaultValue={this.title_text}></WInput>
+                    <WInput className="blogeditor_input" placeholder="请输入文章标题" onChange={this.handleTitleInput.bind(this)} defaultValue={this.title_text}></WInput>
 
-                    <div className="blogeditor_category_prefix">分类</div>
+                    <div className="blogeditor_prefix">分类</div>
                     
-                    <WSelector defaultValue={this.category_id.toString()} className="blogeditor_category" list={this.category_list} onChange={this.handleCategoryChange.bind(this)}></WSelector>
+                    <WSelector defaultValue={this.category_id.toString()} className="blogeditor_input" list={this.category_list} onChange={this.handleCategoryChange.bind(this)}></WSelector>
 
-                    <div className="blogeditor_shortbody_prefix">简介</div>
+                    <div className="blogeditor_prefix">可见</div>
+
+                    <WSelector defaultValue={this.privacy ? 'true' : 'false'} className="blogeditor_input" list={[{key:"false",value:"公开文章"},{key:"true",value:"设为私有"}]} onChange={this.handlePrivacyChange.bind(this)}></WSelector>
+
+                    <div className="blogeditor_prefix">简介</div>
                     
                     <Suspense fallback={<div>加载编辑器中...</div>}>
                         <AceEditor minLines={10} maxLines={10} mode="markdown" theme="chrome" fontSize={16} value={this.shortbody_text} height="100%" width="100%" className="blogeditor_shortbody_ace" onChange={this.handleShortbodyInput.bind(this)} />
                     </Suspense>
 
-                    <div className="blogeditor_content_prefix">正文</div>
+                    <div className="blogeditor_prefix">正文</div>
                     
+
                     <WButton onClick={()=>{this.image_selector_ref.current!.click()}} title="添加图片" className="blogeditor_img_upload_button" />
                     <Suspense fallback={<div>加载编辑器中...</div>}>
                         <AceEditor minLines={60} maxLines={60} mode="markdown" theme="chrome" fontSize={16} value={this.content_text} height="100%" width="100%" className="blogeditor_content_ace" onChange={this.handleEditorText.bind(this)} />
                     </Suspense>
-                    
+
+
                 </div>
             </WContainer>
         </div>
@@ -218,9 +229,9 @@ export class EditBlogProgram extends Program{
         this.printLn("开始保存...");
         
         if(this.mode === "new"){
-            await this.network(true).post("/v1/article",{ article_id:this.articleId,category_id:this.category_id,title:this.title_text,    shortbody:this.shortbody_text,content:this.content_text })
+            await this.network(true).post("/v1/article",{ article_id:this.articleId,category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy})
         }else{
-            await this.network(true).put("/v1/article",{ article_id:this.articleId,category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text })
+            await this.network(true).put("/v1/article",{ article_id:this.articleId,category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy })
         }
 
         this.printLn("保存完毕");

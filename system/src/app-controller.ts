@@ -1,11 +1,12 @@
 import { BadRequestException, Body, Controller, Delete, Get, Optional, Post, Put, Query, Session, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { IsBooleanString, IsNumber, IsNumberString, IsString } from 'class-validator';
+import { IsBoolean, IsBooleanString, IsNumber, IsNumberString, IsString } from 'class-validator';
 import { MustAdminGuard } from './filter/admin-guard';
 import { ArticleService } from './service/article-service';
 import { CategoryService } from './service/category-service';
 import { UserService } from './service/user-service';
 import { FileInterceptor } from "@nestjs/platform-express"
 import { ImageStoreManager } from './manager/image-store-manager';
+import { RoleType } from './domain/user';
 
 export class UserPassDTO{
   @IsString()
@@ -28,6 +29,9 @@ export class CreateArticleDTO{
 
   @IsString()
   content:string;
+
+  @IsBoolean()
+  privacy : boolean;
 
 }
 
@@ -55,6 +59,9 @@ export class ModifyArticleDTO{
 
   @IsNumber()
   article_id : number;
+
+  @IsBoolean()
+  privacy : boolean;
 
 }
 
@@ -146,13 +153,13 @@ export class AppController {
   @UseGuards(MustAdminGuard)
   @Put("/v1/article")
   modifyArticle(@Body() modify_info : ModifyArticleDTO){
-    return this.articleService.modifyArticle(modify_info.article_id,modify_info.title,modify_info.shortbody,modify_info.content,modify_info.category_id);
+    return this.articleService.modifyArticle(modify_info.article_id,modify_info.title,modify_info.shortbody,modify_info.content,modify_info.category_id,modify_info.privacy);
   }
 
   @UseGuards(MustAdminGuard)
   @Post("/v1/article")
   createArticle(@Body() create_info : CreateArticleDTO,@Session() { session }){
-    return this.articleService.createArticle(session.userId,create_info.title,create_info.shortbody,create_info.content,create_info.category_id);
+    return this.articleService.createArticle(session.userId,create_info.title,create_info.shortbody,create_info.content,create_info.category_id,create_info.privacy);
   }
   @Get("/v1/article")
   getArticle(@Query() get_info: GetArticleDTO){    
@@ -168,9 +175,16 @@ export class AppController {
 
   @Get("/v1/article/list")
   getArticleLatestList(@Query() query:GetArticleListDTO){
-
-    return this.articleService.getLatestList(parseInt(query.page),parseInt(query.count));
+    return this.articleService.getLatestList(parseInt(query.page),parseInt(query.count),false);
   }
+  
+
+  @UseGuards(MustAdminGuard)
+  @Get("/v1/article/list/full")
+  getArticleFullLatestList(@Query() query:GetArticleListDTO){
+    return this.articleService.getLatestList(parseInt(query.page),parseInt(query.count),true);
+  }
+
 
   @Get("/v1/category/list")
   getAllCategories(){

@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { Article } from '../domain/article';
-import { Category } from '../domain/category';
 
 
 @Injectable()
@@ -11,12 +10,20 @@ export class ArticleManager {
         @InjectRepository(Article) private articleList : Repository<Article>
     ){ }
 
-    getLatestList(start:number,length:number){
-        return this.articleList.findAndCount({
+    getLatestList(start:number,length:number,privacy:boolean = false){
+        
+        const condition : FindManyOptions<Article> = {
             skip:start,
             take:length,
             order:{createdAt:"DESC"}
-        });
+        };
+
+        if(privacy == true){
+            condition.where = { };
+        }else{
+            condition.where = { privacy : false };
+        }
+        return this.articleList.findAndCount(condition);
     }
     getArticleOrFail(articleId : number){
         return this.articleList.findOneOrFail(articleId);
