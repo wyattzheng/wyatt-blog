@@ -65,8 +65,8 @@ export class ViewBlogProgram extends Program{
         this.printLn(`加载文章...`)
 
 
-        const { data:article } = await this.network().get("/v1/article",{params:{article_id:articleId,render:"true"}});
-        const { data:userinfo } = await this.network().get("/v1/user",{params:{userid:article.userId}});
+        const { data:article } = await this.network().get(`/v1/articles/${articleId}`,{params:{ render:"true" }});
+        const { data:userinfo } = await this.network().get(`/v1/users/${article.userId}`,{params:{ type:"userid" }});
 
         this.printLn(`加载完毕: ${article.title}`)
 

@@ -8,9 +8,8 @@ export class RemoveArticleProgram extends Program{
     handleInput(data:string): void {
          
     }
-    protected async execute(cli:any,articleId:string): Promise<void> {
-    
-            await this.network(true).delete("/v1/article",{data:{article_id:parseInt(articleId)}});
+    protected async execute(cli:any,articleId:string): Promise<void> {    
+            await this.network(true).delete(`/v1/articles/${articleId}`);
         
     }
     

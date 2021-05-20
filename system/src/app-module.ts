@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app-controller';
+import { ArticleController,CategoryController,ImageStoreController,UserController } from './controllers';
 import { SessionManager } from './manager/session-manager';
 import { UserManager } from './manager/user-manager';
 import { UserService } from './service/user-service';
@@ -14,7 +14,7 @@ import { AppConfigModule } from "./config/app-config"
 
 @Module({
   imports: [ DatabaseModule, RepositoryModule, AppConfigModule ],
-  controllers: [AppController],
+  controllers: [ ArticleController,CategoryController,ImageStoreController,UserController ],
   providers: [
     UserService,
     ArticleService,

@@ -14,9 +14,11 @@ export class LoginProgram extends Program{
         if(!password)
             throw new Error(`请提供密码`);
 
-        const { data: session } = await this.network().post("/v1/session",{username,password});
+        const { data: session } = await this.network().post("/v1/sessions",{ username , password });
 
-        const { data: userinfo } = await this.network().get("/v1/user",{params:{ username }});
+        const { data: userinfo } = await this.network().get(`/v1/users/${username}`,
+            { params:{ type:"username" } }
+        );
 
         this.system.env.set("AUTH_TOKEN",session.token);
 

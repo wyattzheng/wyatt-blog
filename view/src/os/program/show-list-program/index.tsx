@@ -105,9 +105,7 @@ export class ShowListProgram extends Program{
         if(!page)
             page = parseInt(this.system.env.get("CURRENT_VIEW_PAGE") || "0");
 
-        const resource = this.isLogined() ? "/v1/article/list/full" : "/v1/article/list";
-
-        const { data: res } = await this.network().get(resource,{params:{page,count:10}});
+        const { data: res } = await this.network().get("/v1/articles",{params:{page,count:10}});
 
         this.system.env.set("CURRENT_VIEW_PAGE",page.toString());
         this.monitor.setDisplay(<BlogListPage list={res} />);

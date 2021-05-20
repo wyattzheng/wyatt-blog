@@ -7,7 +7,7 @@ import { ResponseBodyInterceptor } from './filter/response-body';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors({ maxAge:3600 });
   app.useGlobalInterceptors(new ResponseBodyInterceptor());
   app.useGlobalFilters(new RestExceptionsFilter());
   app.useGlobalPipes(new ValidationPipe());

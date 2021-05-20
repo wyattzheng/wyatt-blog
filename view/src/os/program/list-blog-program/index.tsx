@@ -12,7 +12,7 @@ export class ListBlogProgram extends Program{
     protected async execute(cli:any,username?:string,password?:string): Promise<void> {
 
         
-        const { data: res } = await this.network().get("/v1/article/list",{params:{page:0,count:10}});
+        const { data: res } = await this.network().get("/v1/articles",{params:{page:0,count:10}});
         
         this.printLn("文章列表: ");
         this.printLn("#################\r\n");

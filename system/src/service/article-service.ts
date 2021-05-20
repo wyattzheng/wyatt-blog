@@ -41,8 +41,8 @@ export class ArticleService {
         }
     }
 
-    async getLatestList(page:number = 0,page_count:number = 10,privacy : boolean = false){
-        const [articles,count] = await this.articleManager.getLatestList(page * page_count,page_count, privacy);
+    async getLatestList(page:number = 0,page_count:number = 10,show_privacy : boolean = false){
+        const [articles,count] = await this.articleManager.getLatestList(page * page_count,page_count, show_privacy);
 
         const pages = getPageCount(count,page_count);
 

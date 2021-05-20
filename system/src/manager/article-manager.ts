@@ -10,7 +10,7 @@ export class ArticleManager {
         @InjectRepository(Article) private articleList : Repository<Article>
     ){ }
 
-    getLatestList(start:number,length:number,privacy:boolean = false){
+    getLatestList(start:number,length:number,show_privacy:boolean = false){
         
         const condition : FindManyOptions<Article> = {
             skip:start,
@@ -18,7 +18,7 @@ export class ArticleManager {
             order:{createdAt:"DESC"}
         };
 
-        if(privacy == true){
+        if(show_privacy == true){
             condition.where = { };
         }else{
             condition.where = { privacy : false };

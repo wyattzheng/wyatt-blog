@@ -59,7 +59,7 @@ export class EditBlogProgram extends Program{
     }
     private async loadArticle(articleId : number){
 
-        const { data : article } = await this.network().get("/v1/article",{ params:{ article_id:articleId,render:"false" } });
+        const { data : article } = await this.network().get(`/v1/articles/${articleId}`,{ params:{ render:"false" } });
         this.title_text = article.title;
         this.content_text = article.content;
         this.shortbody_text = article.shortbody;
@@ -67,7 +67,7 @@ export class EditBlogProgram extends Program{
         this.privacy  = article.privacy;
     }
     private async loadCategories(){
-        const { data : list } = await this.network().get("/v1/category/list");
+        const { data : list } = await this.network().get("/v1/categories");
         const category_list = [];
         for(const item of list){
             category_list.push({key:item.id,value:item.name});
@@ -229,9 +229,9 @@ export class EditBlogProgram extends Program{
         this.printLn("开始保存...");
         
         if(this.mode === "new"){
-            await this.network(true).post("/v1/article",{ article_id:this.articleId,category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy})
+            await this.network(true).post(`/v1/articles/${this.articleId}`,{ category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy})
         }else{
-            await this.network(true).put("/v1/article",{ article_id:this.articleId,category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy })
+            await this.network(true).put(`/v1/articles/${this.articleId}`,{ category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy })
         }
 
         this.printLn("保存完毕");
