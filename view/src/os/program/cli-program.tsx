@@ -161,8 +161,6 @@ export class CLIProgram extends Program{
         this.keyinputBuffer.push("\r");
         this.consumeLine();
 
-        this.system.env.has("NOT_FIRST_VISIT") && this.terminal.setVisible(false);
-
     }
     public getProgramContainer(){
         if(!this.container)
