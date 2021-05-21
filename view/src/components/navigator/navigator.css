@@ -1,0 +1,28 @@
+.navigator_container{
+    background: rgb(0 0 0 / 3%);;
+}
+.navigator_middlearea{
+    display:flex;
+    justify-content: flex-end;
+    padding:10px 10px;
+    margin:0 auto;
+    max-width:800px;
+    align-items: center;
+}
+.navigator_item{
+    color:#FFF;
+    display: block;
+    text-decoration: none;
+    font-size:16px;
+    padding:10px 15px;
+    border-radius: 5px;
+    width:100px;
+    text-align: center;    
+    background: rgba(255,255,255,0.1);
+    margin:0px 5px;
+    transition: all 0.2s;
+}
+.navigator_item:hover{
+    background: rgba(255,255,255,0.3);
+
+}

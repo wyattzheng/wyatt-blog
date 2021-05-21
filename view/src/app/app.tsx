@@ -134,6 +134,7 @@ export function App() {
             
             <WTerminal className="wterm" style={{ width:`${terminalWidth}px` }} cols={85} rows={15} ref={terminal} onData={(data)=>{inputEmitter.current!.emit("data",data)}}></WTerminal>
               
+          
           </div>
           
       </div>

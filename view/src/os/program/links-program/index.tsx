@@ -77,6 +77,8 @@ export class LinksProgram extends Program{
         this.monitor.setDisplay(
             <div className="links_container">
                 <WContainer className="links_middlearea">
+                    <a className="links_gohome" href="#/wyattos/cli/show">返回文章列表</a>
+
                     <div className="links">
                         {links_nodes}
                     </div>

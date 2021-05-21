@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { Program } from "../program";
 import { WContainer } from "../../../components/container";
+import { Navigator } from "../../../components/navigator";
 
 import { RiBookmark2Line,RiTimerLine,RiCalendar2Line } from "react-icons/ri";
 
@@ -29,7 +30,6 @@ export function BlogListPage(props : BlogListPageProps){
 
     const list_content = [];
     const page_selectors = []
-
     
     for(const [key,article] of props.list.list.entries())
         list_content.push(
@@ -83,6 +83,10 @@ export function BlogListPage(props : BlogListPageProps){
     }
     return (
         <div className="articlelist_container">
+            <Navigator list={[
+                {title:"友链",url:"#/wyattos/cli/links"},
+                {title:"帮助",url:"#/wyattos/cli/help"},
+            ]}></Navigator>
             <WContainer className="articlelist_middlearea">
                 
                 <div className="articlelist">{ list_content }</div>
