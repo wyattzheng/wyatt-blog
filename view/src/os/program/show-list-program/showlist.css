@@ -15,7 +15,7 @@
 }
 
 .articlelist_container{
-    background:url(https://cdn.jsdelivr.net/gh/zhymc/wyatt-blog/static/background/miyazaki_1.jpg);
+    background:#556;
     background-position: center;
     background-size: cover;
     height:100%;
@@ -54,7 +54,6 @@
     padding:10px;
     padding-left:30px;
     padding-right:30px;
-    border-bottom: 1px solid #DDD;
 
 }
 .articlelist_item_header{
