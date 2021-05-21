@@ -1,29 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ArticleController,CategoryController,ImageStoreController,UserController } from './controllers';
-import { SessionManager } from './manager/session-manager';
-import { UserManager } from './manager/user-manager';
-import { UserService } from './service/user-service';
 import { DatabaseModule , RepositoryModule } from "./config/database"
-import { SessionMiddleware } from './filter/session-middleware';
-import { ArticleService } from './service/article-service';
-import { ArticleManager } from './manager/article-manager';
-import { CategoryManager } from './manager/category-manager';
-import { CategoryService } from './service/category-service';
-import { ImageStoreManager } from './manager/image-store-manager';
 import { AppConfigModule } from "./config/app-config"
+import { SessionMiddleware } from './filter/session-middleware';
+
+import { Controllers } from './controllers';
+import { Managers } from './manager';
+import { Services } from './service';
+
 
 @Module({
   imports: [ DatabaseModule, RepositoryModule, AppConfigModule ],
-  controllers: [ ArticleController,CategoryController,ImageStoreController,UserController ],
+  controllers: Controllers,
   providers: [
-    UserService,
-    ArticleService,
-    CategoryService,
-    CategoryManager,
-    ArticleManager,
-    UserManager,
-    SessionManager,
-    ImageStoreManager
+    ...Services,
+    ...Managers
   ],
 })
 export class AppModule implements NestModule{

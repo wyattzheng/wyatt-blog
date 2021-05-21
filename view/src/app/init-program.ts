@@ -11,6 +11,7 @@ import { ShowListProgram } from '../os/program/show-list-program';
 import { CategoryProgram } from '../os/program/category-program';
 import { RemoveArticleProgram } from '../os/program/remove-blog-program';
 import { LogoutProgram } from '../os/program/logout-program';
+import { LinksProgram } from '../os/program/links-program/index';
 
 
 export function initProgramContainer(container : IProgramContainer){
@@ -26,4 +27,5 @@ export function initProgramContainer(container : IProgramContainer){
     container.addProgramImpl(CategoryProgram);
     container.addProgramImpl(RemoveArticleProgram)
     container.addProgramImpl(LogoutProgram);
+    container.addProgramImpl(LinksProgram);
 }
