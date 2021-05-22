@@ -229,7 +229,10 @@ export class EditBlogProgram extends Program{
         this.printLn("开始保存...");
         
         if(this.mode === "new"){
-            await this.network(true).post(`/v1/articles/${this.articleId}`,{ category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy})
+            const {data : newArticle } = await this.network(true).post(`/v1/articles`,{ category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy})
+            this.articleId = newArticle.id;
+            this.mode = "edit";
+            this.printLn(`新文章已创建 #${newArticle.id}`);
         }else{
             await this.network(true).put(`/v1/articles/${this.articleId}`,{ category_id:this.category_id,title:this.title_text,shortbody:this.shortbody_text,content:this.content_text,privacy: this.privacy })
         }
