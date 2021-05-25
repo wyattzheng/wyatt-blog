@@ -36,7 +36,7 @@ export function useAutoTerminalWidth(
     updateTerminalWidth();
     window.addEventListener("resize",updateTerminalWidth);
     return ()=>window.removeEventListener("resize",updateTerminalWidth);
-  },[]);
+  },[setTerminalWidth, system, terminal]);
 }
 
 function getCurrentHashCommand(){
@@ -59,13 +59,13 @@ function useHashTerminalInput(cli_program : React.MutableRefObject<CLIProgram | 
         return;
       }
       if(cli && cli.isLoaded()){
-        await cli.slowInputCommandText(command);
+        await cli.inputCommandText(command,20);
       }
     };
     window.addEventListener("popstate",popstatelistener);
 
     return ()=>window.removeEventListener("popstate",popstatelistener);
-  },[])
+  },[cli_program])
 //  cli.inputCommandText();
 
 }
@@ -81,7 +81,7 @@ export function App() {
 
   const system = useSystem();
 
-  const [input,inputEmitter] = useInput();
+  const input = useInput(terminal);
   const output = useOutput(terminal);
   const container = useProgramContainer(input,output,system,os_monitor,os_terminal);
 
@@ -132,7 +132,7 @@ export function App() {
           </div>
           <div className="terminal-area" style={{ display: os_terminal.visible? undefined : "none"}}>
             
-            <WTerminal className="wterm" style={{ width:`${terminalWidth}px` }} cols={85} rows={15} ref={terminal} onData={(data)=>{inputEmitter.current!.emit("data",data)}}></WTerminal>
+            <WTerminal className="wterm" style={{ width:`${terminalWidth}px` }} cols={85} rows={15} ref={terminal}></WTerminal>
               
           
           </div>

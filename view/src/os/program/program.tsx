@@ -5,7 +5,7 @@ import { wait } from "../../utils";
 import { IMonitor } from "../monitor";
 import { ISystem } from "../system";
 import { ITerminal } from "../terminal";
-
+import { Readable, Writable } from "stream"
 
 export interface ProgramImpl{
     program_name:string;
@@ -24,20 +24,20 @@ export interface IProgramContainer{
 
 /**
  * 标准输入模型
+ * 
+ * 需要抛出事件keypress、事件data
  */
-export interface StdInput{
-    onData : (listener:(data:any) => any) => void;
-    removeDataListener(listener:(data:string) => any) : void;
+export interface StdInput extends Readable{
+    pushKey( key:any ) : void;
 }
 /**
  * 标准输出模型
+ * 
+ * 需要抛出事件 resize
  */
-export interface StdOutput{
-    writeData(data : string) : void;
-    /**
-     * 清空标准输出
-     */
-    clear() : void;
+export interface StdOutput extends Writable{
+    isTTY: boolean;
+    columns: number;
 }
 
 /**
@@ -64,10 +64,10 @@ export abstract class Program implements IProgram{
         ){
     }
     private start(){
-        this.stdin.onData(this.inputListener);
+        this.stdin.on("keypress",this.inputListener);
     }
     private stop(){
-        this.stdin.removeDataListener(this.inputListener);
+        this.stdin.off("keypress",this.inputListener);
     }
     protected async resetDisplay(){
         this.monitor.setDisplay(<></>);
@@ -111,7 +111,7 @@ export abstract class Program implements IProgram{
         this.stop();
     }
     protected printLn(line:string){
-        this.stdout.writeData(`${line}\r\n`);
+        this.stdout.write(`${line}\r\n`);
     }
     abstract handleInput(data:any) : void;
     protected abstract execute(...args:any[]) : Promise<void>;

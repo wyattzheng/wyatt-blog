@@ -37,10 +37,10 @@ export class EditBlogProgram extends Program{
 
     private image_selector_ref = React.createRef<HTMLInputElement>();
 
-    handleInput(data:string): void {
-        if(data === "q"){
+    handleInput(char:string): void {
+        if(char === "q"){
             this.eventBus.emit("CommandEvent","quit");
-        }else if(data === "s"){
+        }else if(char === "s"){
             this.eventBus.emit("CommandEvent","save");
         }
     }
