@@ -139,7 +139,7 @@ export class CLIProgram extends Program{
             this.printLn("CLI 程序已退出");
             this.exited = true;
         }else if(cmd === "clear"){
-
+            this.stdout.clear();
         }else if(cmd === ""){
         }else{
             await this.runProgram(cmd,args);

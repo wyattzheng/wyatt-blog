@@ -38,6 +38,7 @@ export interface StdInput extends Readable{
 export interface StdOutput extends Writable{
     isTTY: boolean;
     columns: number;
+    clear(): void;
 }
 
 /**

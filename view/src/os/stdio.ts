@@ -98,6 +98,9 @@ export class TerminalStandardOutput extends Writable implements StdOutput{
     end(): void {
 
     }
+    clear(){
+        this.terminal.clear();
+    }
     write(data: string): boolean {
 
         this.terminal.write(data);
