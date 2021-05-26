@@ -1,36 +1,32 @@
 import { StdInput, StdOutput } from "./program/program";
 import { MutableRefObject, RefObject, useEffect, useRef } from "react";
 import { Terminal } from "xterm";
-
-
-import getStringWidth from "string-width";
 import { Readable, Writable } from "stream";
 
-function getMappedKeyName(rawName:string){
-    if(rawName === "Backspace"){
+function getMappedKeyName(ctrl_char:string){
+    if(ctrl_char === "\u007F"){
         return "backspace";
-    }else if(rawName === "ArrowLeft"){
+    }else if(ctrl_char === "\u001b\u005b\u0044"){
         return 'left';
-    }else if(rawName === "ArrowRight"){
+    }else if(ctrl_char === "\u001b\u005b\u0043"){
         return 'right';
-    }else if(rawName === "ArrowUp"){
+    }else if(ctrl_char === "\u001b\u005b\u0041"){
         return 'up';
-    }else if(rawName === "ArrowDown"){
+    }else if(ctrl_char === "\u001b\u005b\u0042"){
         return 'down';
-    }else if(rawName === "Delete"){
+    }else if(ctrl_char === "\u001b\u005b\u0033\u007e"){
         return 'delete';
-    }else if(rawName === "Enter"){
+    }else if(ctrl_char === "\u000d"){
         return 'enter';
-    }else if(rawName === "Tab"){
+    }else if(ctrl_char === "\u0009"){
         return 'tab';
-    }else if(rawName === "Home"){
+    }else if(ctrl_char === "\u001b\u005b\u0046"){
         return 'home';
-    }else if(rawName === "End"){
+    }else if(ctrl_char === "\u001b\u005b\u0035\u007e"){
         return 'end';
-    }else if(rawName === "Return"){
-        return 'return';
     }
-    return rawName;
+    
+    return ctrl_char;
 }
 
 export class MutableStandardInputFacade extends Readable implements StdInput{
@@ -64,29 +60,16 @@ export class EventStandardInput extends Readable implements StdInput{
         super();
 
         this.terminal.onData((char)=>{
-            if(getStringWidth(char)>=2){
-                this.emit("keypress",char,{
-                    sequence:char,
-                    name:undefined,
-                    ctrl:false,
-                    meta:false,
-                    shift:false,
-                })
-            }
-        });
-        this.terminal.onKey(({key,domEvent})=>{
+            const name = getMappedKeyName(char);
 
-            const name = getMappedKeyName(domEvent.key);
-            const ctrl = domEvent.ctrlKey;
-            const shift = domEvent.shiftKey;
-
-            this.emit("keypress",key,{
+            this.emit("keypress",name,{
                 sequence:name,
                 name,
-                ctrl,
-                shift
+                ctrl:false,
+                shift:false
             });
-        })
+
+        });
     }
     _read(read_number : number){
 
