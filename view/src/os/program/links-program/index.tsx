@@ -11,7 +11,7 @@ export class LinksProgram extends Program{
     static description = "查看本站的友情链接";
     static usage = [
         "links : 查看所有友情链接",
-        "links add <name> <url> <avatar> <description> : 增加一条友情链接",
+        "links add <name> <url> <avatar> <description> [color] : 增加一条友情链接, 主题色参数是可选的, 如果不填写会自动从头像中获取",
         "links remove <id> : 删除友情链接"
     ].join("\r\n");
 
@@ -24,18 +24,19 @@ export class LinksProgram extends Program{
         arg1?:string,
         arg2?:string,
         arg3?:string,
-        arg4?:string
+        arg4?:string,
+        arg5?:string
     ): Promise<void> {
         if(action === "add"){
-            await this.addLink(arg1!,arg2!,arg3!,arg4!);
+            await this.addLink(arg1!,arg2!,arg3!,arg4!,arg5);
         }else if(action === "remove"){
             await this.removeLink(parseInt(arg1!));
         }else{
             await this.showAllLinks();
         }
     }
-    private async addLink(name:string,url:string,avatar:string,description:string){
-        await this.network(true).post("/v1/links",{name,url,avatar,description});
+    private async addLink(name:string,url:string,avatar:string,description:string,color?:string){
+        await this.network(true).post("/v1/links",{name,url,avatar,description,color});
         this.printLn("已添加该友链");
     }
     private async removeLink(id:number){

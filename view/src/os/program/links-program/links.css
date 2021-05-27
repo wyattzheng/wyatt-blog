@@ -58,12 +58,15 @@
     flex:1;
     text-align: center;
     padding-top:0px;
+    overflow:hidden;
 }
 .links_link_name{
-    font-size:34px;
+    font-size:25px;
     height:54px;
     overflow:hidden;
     color:brown;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .links_link_description{
     font-size: 14px;

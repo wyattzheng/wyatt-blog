@@ -1,8 +1,9 @@
+import * as Readline from "readline-browser";
+import * as ShellQuote from "shell-quote";
+
 import { wait, Chalk } from "../../utils";
 import { IProgramContainer, Program, StdOutput } from "./program";
-import * as Readline from "readline-browser";
 import { MutableStandardInputFacade } from "../stdio";
-
 
 export interface IParsedCommand{
     cmd:string,
@@ -10,7 +11,8 @@ export interface IParsedCommand{
 }
 
 export function parseCommandText(cmd_text:string) : IParsedCommand{
-    const array = cmd_text.split(" ");
+    const array = ShellQuote.parse(cmd_text) as string[];
+
     return {
         cmd:array[0],
         args:array.slice(1,array.length)
