@@ -100,7 +100,7 @@ export class EditBlogProgram extends Program{
         form.append("raw_file_name",file.name);
 
         this.printLn(`开始上传... 文件名: ${file.name} 图片文件大小:${file.size}`);
-        const {data: upload_result} = await this.network(true).post("/v1/image",form,{headers:{"content-type":"multipart/form-data"}});
+        const {data: upload_result} = await this.network(true).post("/v1/images",form,{headers:{"content-type":"multipart/form-data"}});
         this.printLn("上传完毕,复制链接标记:");
         
         const mark = `![](${upload_result.new_file_name})`;
