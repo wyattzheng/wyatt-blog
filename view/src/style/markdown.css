@@ -41,10 +41,24 @@
     box-shadow: 0 0px 1px #000;
 }
 
+.markdown-body code{
+    background: #f7f7f9;
+    padding: 3px 6px;
+    border-radius: 5px;
+    color: #bd4147;
+    margin:3px;
+}
+
 .markdown-body pre{
     background-color:#222;
     border-radius: 3px;
     padding: 8px;
+    color: #FFF;
+}
+
+.markdown-body pre .hljs{
+    background-color:#222;
+    color: #FFF;
 }
 
 .markdown-body hr{
@@ -52,13 +66,6 @@
     border: 0;
     background: #EEE;
     margin: 20px 0px;
-}
-.markdown-body code{
-    background: #222;
-    padding: 3px 6px;
-    border-radius: 5px;
-    color: #FFF;
-    margin:3px;
 }
 .markdown-body h2{
     font-weight: 100;
@@ -109,10 +116,8 @@
 }
 .markdown-body li {
     word-wrap: break-all;
-    list-style-type:none;
+    list-style-type:decimal;
     padding:5px;
-    display: flex;
-    align-items: center;
 }
 .markdown-body [type=checkbox] {
     box-sizing: border-box;
